@@ -144,10 +144,7 @@ public class RestActivity extends AppCompatActivity {
             public void onFinish() {
 
                 beepMediaPlayer.start();
-                beepMediaPlayer.release();
-                beepMediaPlayer = null;
-                tickMediaPlayer.release();
-                tick = null;
+                //releaseMediaResources();
                 if (shuttlesRemaining > 0) {
                     startActivity(new Intent(RestActivity.this, ShuttleActivity.class)
                             .putExtra(STAGE_INDEX, currentStageIndex)
@@ -165,6 +162,12 @@ public class RestActivity extends AppCompatActivity {
                         throw new RuntimeException("No rest after the last stage and the last shuttle");
                     }
                 }
+                restCountDownTimer.cancel();
+                beepMediaPlayer.release();
+                beepMediaPlayer = null;
+                tickMediaPlayer.release();
+                tickMediaPlayer = null;
+                RestActivity.this.finish();
             }
         };
     }

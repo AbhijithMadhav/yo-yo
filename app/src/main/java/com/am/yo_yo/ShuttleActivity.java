@@ -101,10 +101,6 @@ public class ShuttleActivity extends AppCompatActivity {
             public void onFinish() {
 
                 beepMediaPlayer.start();
-                beepMediaPlayer.release();
-                beepMediaPlayer = null;
-                halfBeepMediaPlayer.release();
-                halfBeepMediaPlayer = null;
 
                 Integer shuttlesRemaining = ShuttleActivity.this.shuttlesRemaining - 1;
                 if (shuttlesRemaining > 0) {
@@ -128,6 +124,12 @@ public class ShuttleActivity extends AppCompatActivity {
                         );
                     }
                 }
+
+                shuttleCountDownTimer.cancel();
+                beepMediaPlayer.release();
+                beepMediaPlayer = null;
+                halfBeepMediaPlayer.release();
+                halfBeepMediaPlayer = null;
             }
         };
     }
