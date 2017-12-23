@@ -16,13 +16,13 @@ import static com.am.yo_yo.Constants.SHUTTLES_REMAINING;
 import static com.am.yo_yo.Constants.STAGES;
 import static com.am.yo_yo.Constants.STAGE_INDEX;
 import static java.lang.Boolean.FALSE;
-import static java.lang.Boolean.TRUE;
 
 public class RestActivity extends AppCompatActivity {
 
 
     private TextView remainingTimeView;
     private TextView distanceCoveredView;
+    private TextView totalShuttlesCompletedView;
 
     private TextView currentShuttleStageView;
     private TextView shuttlesRemainingView;
@@ -55,6 +55,7 @@ public class RestActivity extends AppCompatActivity {
         // UI
         remainingTimeView = findViewById(R.id.remainingTime);
         distanceCoveredView = findViewById(R.id.distanceCovered);
+        totalShuttlesCompletedView = findViewById(R.id.shuttlesCompleted);
         currentShuttleStageView = findViewById(R.id.currentShuttleStage);
         shuttlesRemainingView = findViewById(R.id.shuttlesRemaining);
         //currentSpeedLevelView = findViewById(R.id.currentSpeedLevel);
@@ -97,10 +98,11 @@ public class RestActivity extends AppCompatActivity {
 
         Integer currentStageIndex = getIntent().getIntExtra(STAGE_INDEX, 0);
         Stage currentStage = STAGES.get(currentStageIndex);
-        final Integer shuttlesRemaining = getIntent().getIntExtra(SHUTTLES_REMAINING, currentStage.getNumShuttles());
+        Integer shuttlesRemaining = getIntent().getIntExtra(SHUTTLES_REMAINING, currentStage.getNumShuttles());
 
 
         distanceCoveredView.setText(String.valueOf(Utils.distanceCoveredInM(currentStageIndex, shuttlesRemaining)));
+        totalShuttlesCompletedView.setText(String.valueOf(Utils.shuttlesCompleted(currentStageIndex, shuttlesRemaining)));
 
         currentShuttleStageView.setText(String.valueOf(currentStage.getStageId()));
         this.shuttlesRemainingView.setText(String.valueOf(shuttlesRemaining));
@@ -116,6 +118,11 @@ public class RestActivity extends AppCompatActivity {
             numberOfShuttlesView.setText(String.valueOf(nextStage.getNumShuttles()));
             upcomingSpeedView.setText(String.valueOf(nextStage.getSpeedInKph()));
             upcomingSpeedUnitsView.setText("Kph");
+        } else {
+            upcomingShuttleStageView.setText("-");
+            numberOfShuttlesView.setText("-");
+            upcomingSpeedView.setText("-");
+            upcomingSpeedUnitsView.setText("");
         }
 
 
@@ -137,6 +144,10 @@ public class RestActivity extends AppCompatActivity {
             public void onFinish() {
 
                 beepMediaPlayer.start();
+                beepMediaPlayer.release();
+                beepMediaPlayer = null;
+                tickMediaPlayer.release();
+                tick = null;
                 if (shuttlesRemaining > 0) {
                     startActivity(new Intent(RestActivity.this, ShuttleActivity.class)
                             .putExtra(STAGE_INDEX, currentStageIndex)

@@ -7,20 +7,48 @@
     tools:context="com.am.yo_yo.RestActivity">
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:padding="@dimen/fab_margin">
         <TextView
             android:id="@+id/remainingTimeLabel"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Remaining Time : " />
-
+            android:gravity="center"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:text="Rest"
+            />
         <TextView
             android:id="@+id/remainingTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="30sp"
+            android:text="0"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/shuttlesCompletedLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:text="Total Shuttles Completed : " />
+
+        <TextView
+            android:id="@+id/shuttlesCompleted"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
             android:text="0"/>
 
     </LinearLayout>
@@ -28,18 +56,22 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:gravity="center">
 
         <TextView
             android:id="@+id/distanceCoveredLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:textStyle="bold"
             android:text="Distance Covered : " />
 
         <TextView
             android:id="@+id/distanceCovered"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="15sp"
             android:text="0"/>
 
         <TextView
@@ -50,194 +82,214 @@
 
     </LinearLayout>
 
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/currentStatsLabel"
-        android:text="Current Stage"
-        android:textStyle="bold"
-        android:gravity="center"/>
-
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:padding="@dimen/fab_margin">
 
         <TextView
-            android:id="@+id/currentShuttleStageLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/currentStatsLabel"
+            android:text="Current Stage"
+            android:textStyle="bold"
+            android:gravity="center"/>
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Shuttle Stage : " />
+            android:orientation="horizontal"
+            android:layout_gravity="center">
 
-        <TextView
-            android:id="@+id/currentShuttleStage"
+            <TextView
+                android:id="@+id/currentShuttleStageLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Shuttle Stage : " />
+
+            <TextView
+                android:id="@+id/currentShuttleStage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"/>
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="0"/>
+            android:orientation="horizontal"
+            android:layout_gravity="center">
 
+            <TextView
+                android:id="@+id/shuttlesRemainingLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Shuttles Remaining : " />
+
+            <TextView
+                android:id="@+id/shuttlesRemaining"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0" />
+
+        </LinearLayout>
+
+        <!--
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/currentSpeedLevelLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Speed Level : " />
+
+            <TextView
+                android:id="@+id/currentSpeedLevel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"/>
+
+        </LinearLayout>
+        -->
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center">
+
+            <TextView
+                android:id="@+id/currentSpeedLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Required Speed : " />
+
+            <TextView
+                android:id="@+id/currentSpeed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"/>
+
+            <TextView
+                android:id="@+id/currentSpeedUnits"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" kph"/>
+
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:padding="@dimen/fab_margin">
 
         <TextView
-            android:id="@+id/shuttlesRemainingLabel"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Shuttles remaining : " />
+            android:id="@+id/upcomingLabel"
+            android:text="Upcoming Stage"
+            android:textStyle="bold"
+            android:gravity="center"/>
 
-        <TextView
-            android:id="@+id/shuttlesRemaining"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="0" />
+            android:orientation="horizontal"
+            android:layout_gravity="center">
+
+            <TextView
+                android:id="@+id/upcomingShuttleStageLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Shuttle Stage : " />
+
+            <TextView
+                android:id="@+id/upcomingShuttleStage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="0"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center">
+
+            <TextView
+                android:id="@+id/numberOfShuttlesLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Number of Shuttles: " />
+
+            <TextView
+                android:id="@+id/numberOfShuttles"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"/>
+
+        </LinearLayout>
+
+        <!--
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/upcomingSpeedLevelLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Speed Level : " />
+
+            <TextView
+                android:id="@+id/upcomingSpeedLevel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"/>
+
+        </LinearLayout>
+        -->
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center">
+
+            <TextView
+                android:id="@+id/upcomingSpeedLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Required Speed : " />
+
+            <TextView
+                android:id="@+id/upcomingSpeed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"/>
+
+
+            <TextView
+                android:id="@+id/upcomingSpeedUnits"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" kph"/>
+
+
+        </LinearLayout>
 
     </LinearLayout>
-
-    <!--
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/currentSpeedLevelLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Speed Level : " />
-
-        <TextView
-            android:id="@+id/currentSpeedLevel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="0"/>
-
-    </LinearLayout>
-    -->
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/currentSpeedLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Required Speed : " />
-
-        <TextView
-            android:id="@+id/currentSpeed"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="0"/>
-
-        <TextView
-            android:id="@+id/currentSpeedUnits"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=" kph"/>
-
-    </LinearLayout>
-
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/upcomingLabel"
-        android:text="Upcoming Stage"
-        android:textStyle="bold"
-        android:gravity="center"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/upcomingShuttleStageLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Shuttle Stage : " />
-
-        <TextView
-            android:id="@+id/upcomingShuttleStage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="0"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/numberOfShuttlesLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Number of Shuttles: " />
-
-        <TextView
-            android:id="@+id/numberOfShuttles"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="0"/>
-
-    </LinearLayout>
-
-    <!--
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/upcomingSpeedLevelLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Speed Level : " />
-
-        <TextView
-            android:id="@+id/upcomingSpeedLevel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="0"/>
-
-    </LinearLayout>
-    -->
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/upcomingSpeedLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Required Speed : " />
-
-        <TextView
-            android:id="@+id/upcomingSpeed"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="0"/>
-
-
-        <TextView
-            android:id="@+id/upcomingSpeedUnits"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=" kph"/>
-
-
-    </LinearLayout>
-
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
