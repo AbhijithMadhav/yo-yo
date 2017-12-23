@@ -5,6 +5,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -22,7 +23,6 @@ public class ShuttleActivity extends AppCompatActivity {
 
     private TextView currentShuttleStageView;
     private TextView shuttlesRemainingView;
-    //private TextView currentSpeedLevelView;
     private TextView currentSpeedView;
     private TextView currentSpeedUnitsView;
 
@@ -101,7 +101,6 @@ public class ShuttleActivity extends AppCompatActivity {
             public void onFinish() {
 
                 beepMediaPlayer.start();
-
                 Integer shuttlesRemaining = ShuttleActivity.this.shuttlesRemaining - 1;
                 if (shuttlesRemaining > 0) {
                     startActivity(new Intent(ShuttleActivity.this, RestActivity.class)
@@ -124,13 +123,18 @@ public class ShuttleActivity extends AppCompatActivity {
                         );
                     }
                 }
-
-                shuttleCountDownTimer.cancel();
-                beepMediaPlayer.release();
-                beepMediaPlayer = null;
-                halfBeepMediaPlayer.release();
-                halfBeepMediaPlayer = null;
+                ShuttleActivity.this.finish(); // to ensure that this activity is destroyed
             }
         };
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        shuttleCountDownTimer.cancel();
+        halfBeepMediaPlayer.release();
+        halfBeepMediaPlayer = null;
+        beepMediaPlayer.release();
+        beepMediaPlayer = null;
     }
 }

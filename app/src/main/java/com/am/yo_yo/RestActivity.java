@@ -6,6 +6,8 @@ import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 
 
@@ -24,15 +26,17 @@ public class RestActivity extends AppCompatActivity {
     private TextView distanceCoveredView;
     private TextView totalShuttlesCompletedView;
 
+    private Switch detailsSwitch;
+
+    private LinearLayout currentStageStatsLayout;
     private TextView currentShuttleStageView;
     private TextView shuttlesRemainingView;
-    //private TextView currentSpeedLevelView;
     private TextView currentSpeedView;
     private TextView currentSpeedUnitsView;
 
+    private LinearLayout upcomingStageStatsLayout;
     private TextView upcomingShuttleStageView;
     private TextView numberOfShuttlesView;
-    //private TextView upcomingSpeedLevelView;
     private TextView upcomingSpeedView;
     private TextView upcomingSpeedUnitsView;
 
@@ -56,18 +60,35 @@ public class RestActivity extends AppCompatActivity {
         remainingTimeView = findViewById(R.id.remainingTime);
         distanceCoveredView = findViewById(R.id.distanceCovered);
         totalShuttlesCompletedView = findViewById(R.id.shuttlesCompleted);
+
+        currentStageStatsLayout = findViewById(R.id.currentStageStatsLayout);
         currentShuttleStageView = findViewById(R.id.currentShuttleStage);
         shuttlesRemainingView = findViewById(R.id.shuttlesRemaining);
-        //currentSpeedLevelView = findViewById(R.id.currentSpeedLevel);
         currentSpeedView = findViewById(R.id.currentSpeed);
         currentSpeedUnitsView = findViewById(R.id.currentSpeedUnits);
 
         // UI
+        upcomingStageStatsLayout = findViewById(R.id.upcomingStageLayout);
         upcomingShuttleStageView = findViewById(R.id.upcomingShuttleStage);
         numberOfShuttlesView = findViewById(R.id.numberOfShuttles);
-        //upcomingSpeedLevelView = findViewById(R.id.upcomingSpeedLabel);
         upcomingSpeedView = findViewById(R.id.upcomingSpeed);
         upcomingSpeedUnitsView = findViewById(R.id.upcomingSpeedUnits);
+
+        detailsSwitch = findViewById(R.id.detailsSwitch);
+        detailsSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                currentStageStatsLayout.setVisibility(LinearLayout.VISIBLE);
+                upcomingStageStatsLayout.setVisibility(LinearLayout.VISIBLE);
+            }
+            else {
+                currentStageStatsLayout.setVisibility(LinearLayout.GONE);
+                upcomingStageStatsLayout.setVisibility(LinearLayout.GONE);
+            }
+
+        });
+        detailsSwitch.setChecked(FALSE);
+        currentStageStatsLayout.setVisibility(LinearLayout.GONE);
+        upcomingStageStatsLayout.setVisibility(LinearLayout.GONE);
 
         // Input from intent
         currentStageIndex = getIntent().getIntExtra(STAGE_INDEX, 0);
@@ -144,7 +165,6 @@ public class RestActivity extends AppCompatActivity {
             public void onFinish() {
 
                 beepMediaPlayer.start();
-                //releaseMediaResources();
                 if (shuttlesRemaining > 0) {
                     startActivity(new Intent(RestActivity.this, ShuttleActivity.class)
                             .putExtra(STAGE_INDEX, currentStageIndex)
@@ -162,13 +182,18 @@ public class RestActivity extends AppCompatActivity {
                         throw new RuntimeException("No rest after the last stage and the last shuttle");
                     }
                 }
-                restCountDownTimer.cancel();
-                beepMediaPlayer.release();
-                beepMediaPlayer = null;
-                tickMediaPlayer.release();
-                tickMediaPlayer = null;
                 RestActivity.this.finish();
             }
         };
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        restCountDownTimer.cancel();
+        tickMediaPlayer.release();
+        tickMediaPlayer = null;
+        beepMediaPlayer.release();
+        beepMediaPlayer = null;
     }
 }
