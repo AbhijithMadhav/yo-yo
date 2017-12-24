@@ -105,7 +105,7 @@ public class YoYoActivity extends AppCompatActivity {
         upcomingStageStatsLayout.setVisibility(LinearLayout.GONE);
 
         // Input from intent
-        testStages = Constants.testStagesMap.get(getIntent().getStringExtra(TEST_NAME));
+        testStages = Constants.TEST_STAGES_MAP.get(getIntent().getStringExtra(TEST_NAME));
         currentStageIndex = 0;
         shuttlesRemaining = testStages.get(currentStageIndex).getNumShuttles();
 

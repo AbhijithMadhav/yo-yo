@@ -2,7 +2,6 @@ package com.am.yo_yo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -36,9 +35,32 @@ public class Constants {
         YYIRT_L1_STAGES.add(new Stage(23, 8, 19f));
     }
 
-    public static Map<String, ArrayList<Stage>> testStagesMap = new HashMap<>();
+    public static final String YO_YO_INTERMITTENT_RECOVERY_TEST_LEVEL_2 = "Yo-Yo Intermittent Recovery Test - Level 2";
+    public static final ArrayList<Stage> YYIRT_L2_STAGES = new ArrayList<>();
     static {
-        testStagesMap.put(YO_YO_INTERMITTENT_RECOVERY_TEST_LEVEL_1, YYIRT_L1_STAGES);
+        YYIRT_L2_STAGES.add(new Stage(11, 1, 13f));
+        YYIRT_L2_STAGES.add(new Stage(15, 1, 15f));
+        YYIRT_L2_STAGES.add(new Stage(17, 2, 16f));
+        YYIRT_L2_STAGES.add(new Stage(18, 3, 16.5f));
+        YYIRT_L2_STAGES.add(new Stage(19, 4, 17f));
+        YYIRT_L2_STAGES.add(new Stage(20, 8, 17.5f));
+        YYIRT_L2_STAGES.add(new Stage(21, 8, 18f));
+        YYIRT_L2_STAGES.add(new Stage(22, 8, 18.5f));
+        YYIRT_L2_STAGES.add(new Stage(23, 8, 19f));
+        YYIRT_L2_STAGES.add(new Stage(24, 8, 19.5f));
+        YYIRT_L2_STAGES.add(new Stage(25, 8, 20f));
+        YYIRT_L2_STAGES.add(new Stage(26, 8, 20.5f));
+        YYIRT_L2_STAGES.add(new Stage(27, 8, 21f));
+        YYIRT_L2_STAGES.add(new Stage(28, 8, 21.5f));
+        YYIRT_L2_STAGES.add(new Stage(29, 8, 22.5f));
+    }
+
+
+    public static final Map<String, ArrayList<Stage>> TEST_STAGES_MAP = new HashMap<>();
+    static {
+        TEST_STAGES_MAP.put(YO_YO_INTERMITTENT_RECOVERY_TEST_LEVEL_1, YYIRT_L1_STAGES);
+        TEST_STAGES_MAP.put(YO_YO_INTERMITTENT_RECOVERY_TEST_LEVEL_2, YYIRT_L2_STAGES);
+
     }
 
 

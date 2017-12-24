@@ -8,5 +8,6 @@
     <string name="l1">Level 1</string>
     <string name="l2">Level 2</string>
     <string name="start">Start</string>
+    <string name="zero">0</string>
 
 </resources>

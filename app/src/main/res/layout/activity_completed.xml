@@ -22,7 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="FINISHED"
+        android:text="Final Stats"
         android:textStyle="bold"
         android:textSize="@dimen/fab_margin"
         android:padding="@dimen/fab_margin"/>
@@ -89,7 +89,7 @@
                 android:id="@+id/distanceCovered"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0"/>
+                android:text="@string/zero"/>
 
             <TextView
                 android:id="@+id/distanceCoveredUnits"
@@ -115,7 +115,7 @@
                 android:id="@+id/totalTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0"/>
+                android:text="@string/zero"/>
 
             <TextView
                 android:id="@+id/totalTimeUnits"

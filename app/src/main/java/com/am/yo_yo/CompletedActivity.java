@@ -37,7 +37,7 @@ public class CompletedActivity extends AppCompatActivity {
         distanceCoveredView = findViewById(R.id.distanceCovered);
         totalTimeView = findViewById(R.id.totalTime);
 
-        testStages = Constants.testStagesMap.get(getIntent().getStringExtra(TEST_NAME));
+        testStages = Constants.TEST_STAGES_MAP.get(getIntent().getStringExtra(TEST_NAME));
         currentStageIndex = getIntent().getIntExtra(STAGE_INDEX, 0);
         shuttlesRemaining = getIntent().getIntExtra(SHUTTLES_REMAINING, 0);
     }
