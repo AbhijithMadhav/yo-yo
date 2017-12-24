@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,96 +11,109 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="DONE"/>
+        android:text="FINISHED"
+        android:textStyle="bold"
+        android:textSize="@dimen/fab_margin"
+        android:padding="@dimen/fab_margin"/>
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="vertical"
+        android:layout_gravity="center">
 
-        <TextView
-            android:id="@+id/completedShuttlesLabel"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Completed Shuttles : " />
+            android:orientation="horizontal"
+            android:gravity="center">
 
-        <TextView
-            android:id="@+id/completedShuttles"
-            android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/completedShuttlesLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Completed Shuttles : " />
+
+            <TextView
+                android:id="@+id/completedShuttles"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="0"/>
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/completedLevelLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Completed Level : "/>
+
+            <TextView
+                android:id="@+id/completedLevel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/distanceCoveredLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Distance Covered : "/>
+
+            <TextView
+                android:id="@+id/distanceCovered"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"/>
+
+            <TextView
+                android:id="@+id/distanceCoveredUnits"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" meters"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/totalTimeLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Total time taken : " />
+
+            <TextView
+                android:id="@+id/totalTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"/>
+
+            <TextView
+                android:id="@+id/totalTimeUnits"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" minutes"/>
+
+        </LinearLayout>
 
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/completedLevelLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Completed Level : "/>
-
-        <TextView
-            android:id="@+id/completedLevel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="0"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/distanceCoveredLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Distance Covered : "/>
-
-        <TextView
-            android:id="@+id/distanceCovered"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="0"/>
-
-        <TextView
-            android:id="@+id/distanceCoveredUnits"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=" meters"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/totalTimeLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Total time taken : " />
-
-        <TextView
-            android:id="@+id/totalTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="0"/>
-
-        <TextView
-            android:id="@+id/totalTimeUnits"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=" minutes"/>
-
-    </LinearLayout>
-
-
 
 </LinearLayout>

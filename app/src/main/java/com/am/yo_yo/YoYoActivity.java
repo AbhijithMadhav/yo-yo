@@ -96,14 +96,13 @@ public class YoYoActivity extends AppCompatActivity {
         upcomingStageStatsLayout.setVisibility(LinearLayout.GONE);
 
         // Input from intent
-        currentStageIndex = getIntent().getIntExtra(STAGE_INDEX, 0);
-        shuttlesRemaining = getIntent().getIntExtra(SHUTTLES_REMAINING, STAGES.get(currentStageIndex).getNumShuttles());
+        currentStageIndex = 0;
+        shuttlesRemaining = STAGES.get(currentStageIndex).getNumShuttles();
 
         // Stop
         stopButton = findViewById(R.id.stopButton);
         stopButton.setOnClickListener(view -> {
-            restCountDownTimer.cancel();
-            shuttleCountDownTimer.cancel();
+            cancelTimers();
             startActivity(
                     new Intent(this, CompletedActivity.class)
                             .putExtra(STAGE_INDEX, currentStageIndex)
@@ -126,10 +125,10 @@ public class YoYoActivity extends AppCompatActivity {
     }
 
     private void startRun(Integer currentStageIndex, Integer shuttlesRemaining) {
-        restCountDownFor(currentStageIndex, shuttlesRemaining);
+        restCountDown(currentStageIndex, shuttlesRemaining);
     }
 
-    private void restCountDownFor(final Integer currentStageIndex, final Integer shuttlesRemaining) {
+    private void restCountDown(final Integer currentStageIndex, final Integer shuttlesRemaining) {
         updateStatsForRest(currentStageIndex, shuttlesRemaining);
 
         // storing timer in reference variable so as to get a handle to cancel the same in some other life cycle stage of the activity
@@ -147,12 +146,12 @@ public class YoYoActivity extends AppCompatActivity {
 
                 beepMediaPlayer.start();
                 if (shuttlesRemaining > 0) {
-                    shuttleCountDownFor(currentStageIndex, shuttlesRemaining);
+                    shuttleCountDown(currentStageIndex, shuttlesRemaining);
                 }
                 else {
                     Integer nextStageIndex = currentStageIndex + 1;
                     if (nextStageIndex < STAGES.size()) {
-                        shuttleCountDownFor(nextStageIndex, STAGES.get(nextStageIndex).getNumShuttles());
+                        shuttleCountDown(nextStageIndex, STAGES.get(nextStageIndex).getNumShuttles());
                     } else {
                         throw new RuntimeException("No rest after the last stage and the last shuttle");
                     }
@@ -164,7 +163,7 @@ public class YoYoActivity extends AppCompatActivity {
     }
 
 
-    private void shuttleCountDownFor(final Integer currentStageIndex, final Integer shuttlesRemaining) {
+    private void shuttleCountDown(final Integer currentStageIndex, final Integer shuttlesRemaining) {
 
         updateStatusForShuttling(currentStageIndex, shuttlesRemaining);
 
@@ -188,14 +187,22 @@ public class YoYoActivity extends AppCompatActivity {
             public void onFinish() {
 
                 beepMediaPlayer.start();
-                if ((shuttlesRemaining - 1) > 0) {
-                    restCountDownFor(currentStageIndex, shuttlesRemaining - 1);
+                int remainingShuttles = shuttlesRemaining - 1;
+                if (remainingShuttles > 0) {
+                    YoYoActivity.this.currentStageIndex = currentStageIndex;
+                    YoYoActivity.this.shuttlesRemaining = remainingShuttles;
+
+                    restCountDown(currentStageIndex, remainingShuttles);
                 }
                 else {
                     Integer nextStageIndex = currentStageIndex + 1;
                     if (nextStageIndex < STAGES.size()) {
-                        restCountDownFor(nextStageIndex, STAGES.get(nextStageIndex).getNumShuttles());
+                        restCountDown(nextStageIndex, STAGES.get(nextStageIndex).getNumShuttles());
+                        YoYoActivity.this.currentStageIndex = nextStageIndex;
+                        YoYoActivity.this.shuttlesRemaining = STAGES.get(nextStageIndex).getNumShuttles();
                     } else {
+                        YoYoActivity.this.currentStageIndex = currentStageIndex;
+                        YoYoActivity.this.shuttlesRemaining = 0;
                         startActivity(
                                 new Intent(YoYoActivity.this, CompletedActivity.class)
                                         .putExtra(STAGE_INDEX, currentStageIndex)
@@ -245,13 +252,19 @@ public class YoYoActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        restCountDownTimer.cancel();
-        shuttleCountDownTimer.cancel();
+        cancelTimers();
         tickMediaPlayer.release();
         tickMediaPlayer = null;
         halfBeepMediaPlayer.release();
         halfBeepMediaPlayer = null;
         beepMediaPlayer.release();
         beepMediaPlayer = null;
+    }
+
+    private void cancelTimers() {
+        if (restCountDownTimer != null)
+            restCountDownTimer.cancel();
+        if (shuttleCountDownTimer != null)
+            shuttleCountDownTimer.cancel();
     }
 }
