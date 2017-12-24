@@ -1,4 +1,4 @@
-package com.am.yo_yo;
+package com.am.yo_yo.app;
 
 /**
  * Created by amadhav on 23/12/17.
@@ -14,6 +14,4 @@ public class Constants {
 
     public static final Integer COUNT_DOWN_INTERVAL_IN_MILLIS = 500;
     public static final Integer MILLIS_IN_ONE_SEC = 1000;
-    public static final Integer SHUTTLE_LENGTH_IN_METERS = 40;
-
 }

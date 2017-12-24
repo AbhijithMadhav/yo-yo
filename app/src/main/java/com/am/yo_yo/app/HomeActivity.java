@@ -1,14 +1,19 @@
-package com.am.yo_yo;
+package com.am.yo_yo.app;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 
+import com.am.yo_yo.R;
+import com.am.yo_yo.test.YoYoIntermittantEnduranceTestLevel1;
+import com.am.yo_yo.test.YoYoIntermittantEnduranceTestLevel2;
+import com.am.yo_yo.test.YoYoIntermittantRecoveryTestLevel1;
+import com.am.yo_yo.test.YoYoIntermittantRecoveryTestLevel2;
+import com.am.yo_yo.test.YoYoTest;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import static com.am.yo_yo.Constants.TEST_NAME;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -35,7 +40,7 @@ public class HomeActivity extends AppCompatActivity {
         yyirtL1StartButton.setOnClickListener(view -> {
             startActivity(
                     new Intent(HomeActivity.this, YoYoActivity.class)
-                            .putExtra(TEST_NAME, YO_YO_INTERMITTENT_RECOVERY_TEST_LEVEL_1.testName())
+                            .putExtra(Constants.TEST_NAME, YO_YO_INTERMITTENT_RECOVERY_TEST_LEVEL_1.testName())
             );
         });
 
@@ -43,7 +48,7 @@ public class HomeActivity extends AppCompatActivity {
         yyirtL2StartButton.setOnClickListener(view -> {
             startActivity(
                     new Intent(HomeActivity.this, YoYoActivity.class)
-                            .putExtra(TEST_NAME, YO_YO_INTERMITTENT_RECOVERY_TEST_LEVEL_2.testName())
+                            .putExtra(Constants.TEST_NAME, YO_YO_INTERMITTENT_RECOVERY_TEST_LEVEL_2.testName())
             );
         });
 
@@ -51,7 +56,7 @@ public class HomeActivity extends AppCompatActivity {
         yyietL1StartButton.setOnClickListener(view -> {
             startActivity(
                     new Intent(HomeActivity.this, YoYoActivity.class)
-                            .putExtra(TEST_NAME, YO_YO_INTERMITTENT_ENDURANCE_TEST_LEVEL_1.testName())
+                            .putExtra(Constants.TEST_NAME, YO_YO_INTERMITTENT_ENDURANCE_TEST_LEVEL_1.testName())
             );
         });
 
@@ -59,7 +64,7 @@ public class HomeActivity extends AppCompatActivity {
         yyietL2StartButton.setOnClickListener(view -> {
             startActivity(
                     new Intent(HomeActivity.this, YoYoActivity.class)
-                            .putExtra(TEST_NAME, YO_YO_INTERMITTENT_ENDURANCE_TEST_LEVEL_2.testName())
+                            .putExtra(Constants.TEST_NAME, YO_YO_INTERMITTENT_ENDURANCE_TEST_LEVEL_2.testName())
             );
         });
     }

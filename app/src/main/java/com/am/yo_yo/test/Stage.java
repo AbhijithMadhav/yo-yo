@@ -1,13 +1,11 @@
-package com.am.yo_yo;
+package com.am.yo_yo.test;
 
 /**
  * Represents a shuttle in the YO-YO test
  * Created by amadhav on 08/12/17.
  */
 
-class Stage {
-
-    public static final Integer DISTANCE_IN_METERS = 40;
+public class Stage {
 
     private Float speedLevel; // Represents a particular speed at which this shuttle should be run
     private Integer numShuttles; // Represents the no of shuttles at this speed level

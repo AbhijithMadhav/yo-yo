@@ -1,4 +1,4 @@
-package com.am.yo_yo;
+package com.am.yo_yo.test;
 
 import java.util.ArrayList;
 

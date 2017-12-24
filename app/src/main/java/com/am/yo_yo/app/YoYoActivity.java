@@ -1,4 +1,4 @@
-package com.am.yo_yo;
+package com.am.yo_yo.app;
 
 import android.content.Intent;
 import android.media.MediaPlayer;
@@ -10,11 +10,11 @@ import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import static com.am.yo_yo.Constants.COUNT_DOWN_INTERVAL_IN_MILLIS;
-import static com.am.yo_yo.Constants.MILLIS_IN_ONE_SEC;
-import static com.am.yo_yo.Constants.SHUTTLES_REMAINING;
-import static com.am.yo_yo.Constants.STAGE_INDEX;
-import static com.am.yo_yo.Constants.TEST_NAME;
+import com.am.yo_yo.R;
+import com.am.yo_yo.test.Stage;
+import com.am.yo_yo.test.YoYoTest;
+
+import static com.am.yo_yo.test.YoYoTest.SHUTTLE_LENGTH_IN_METERS;
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
 
@@ -63,7 +63,7 @@ public class YoYoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_yoyo);
 
         testNameView = findViewById(R.id.testName);
-        testName = getIntent().getStringExtra(TEST_NAME);
+        testName = getIntent().getStringExtra(Constants.TEST_NAME);
         testNameView.setText(testName);
 
         // count down
@@ -102,7 +102,7 @@ public class YoYoActivity extends AppCompatActivity {
         upcomingStageStatsLayout.setVisibility(LinearLayout.GONE);
 
         // Input from intent
-        yoYoTest = HomeActivity.TEST_MAP.get(getIntent().getStringExtra(TEST_NAME));
+        yoYoTest = HomeActivity.TEST_MAP.get(getIntent().getStringExtra(Constants.TEST_NAME));
         currentStageIndex = 0;
         shuttlesRemaining = yoYoTest.testStages().get(currentStageIndex).getNumShuttles();
 
@@ -112,9 +112,9 @@ public class YoYoActivity extends AppCompatActivity {
             cancelTimers();
             startActivity(
                     new Intent(this, CompletedActivity.class)
-                            .putExtra(TEST_NAME, testName)
-                            .putExtra(STAGE_INDEX, currentStageIndex)
-                            .putExtra(SHUTTLES_REMAINING, shuttlesRemaining)
+                            .putExtra(Constants.TEST_NAME, testName)
+                            .putExtra(Constants.STAGE_INDEX, currentStageIndex)
+                            .putExtra(Constants.SHUTTLES_REMAINING, shuttlesRemaining)
             );
             YoYoActivity.this.finish();
         });
@@ -140,11 +140,11 @@ public class YoYoActivity extends AppCompatActivity {
         updateStatsForRest(currentStageIndex, shuttlesRemaining);
 
         // storing timer in reference variable so as to get a handle to cancel the same in some other life cycle stage of the activity
-        restCountDownTimer = new CountDownTimer(yoYoTest.restIntervalInMills(), COUNT_DOWN_INTERVAL_IN_MILLIS) {
+        restCountDownTimer = new CountDownTimer(yoYoTest.restIntervalInMills(), Constants.COUNT_DOWN_INTERVAL_IN_MILLIS) {
 
             private Boolean tick = FALSE;
             public void onTick(long millisUntilFinished) {
-                remainingTimeView.setText(String.valueOf(millisUntilFinished / MILLIS_IN_ONE_SEC));
+                remainingTimeView.setText(String.valueOf(millisUntilFinished / Constants.MILLIS_IN_ONE_SEC));
                 if (tick)
                     tickMediaPlayer.start();
                 tick = !tick;
@@ -177,15 +177,15 @@ public class YoYoActivity extends AppCompatActivity {
 
         Stage currentStage = yoYoTest.testStages().get(currentStageIndex);
 
-        long timeToCompleteShuttleInMillis = (long)((Stage.DISTANCE_IN_METERS * MILLIS_IN_ONE_SEC/ currentStage.getSpeedInMps()));
+        long timeToCompleteShuttleInMillis = (long)((SHUTTLE_LENGTH_IN_METERS * Constants.MILLIS_IN_ONE_SEC/ currentStage.getSpeedInMps()));
 
         // storing timer in reference variable so as to get a handle to cancel the same in some other life cycle stage of the activity
-        shuttleCountDownTimer = new CountDownTimer(timeToCompleteShuttleInMillis, COUNT_DOWN_INTERVAL_IN_MILLIS) {
+        shuttleCountDownTimer = new CountDownTimer(timeToCompleteShuttleInMillis, Constants.COUNT_DOWN_INTERVAL_IN_MILLIS) {
 
             private Boolean halfBeep = TRUE;
 
             public void onTick(long millisUntilFinished) {
-                remainingTimeView.setText(String.valueOf(millisUntilFinished / MILLIS_IN_ONE_SEC));
+                remainingTimeView.setText(String.valueOf(millisUntilFinished / Constants.MILLIS_IN_ONE_SEC));
                 if (timeToCompleteShuttleInMillis/millisUntilFinished == 2 && halfBeep) {
                     halfBeepMediaPlayer.start();
                     halfBeep = FALSE;
@@ -213,8 +213,8 @@ public class YoYoActivity extends AppCompatActivity {
                         YoYoActivity.this.shuttlesRemaining = 0;
                         startActivity(
                                 new Intent(YoYoActivity.this, CompletedActivity.class)
-                                        .putExtra(STAGE_INDEX, currentStageIndex)
-                                        .putExtra(SHUTTLES_REMAINING, 0)
+                                        .putExtra(Constants.STAGE_INDEX, currentStageIndex)
+                                        .putExtra(Constants.SHUTTLES_REMAINING, 0)
                         );
                     }
                 }
@@ -233,8 +233,8 @@ public class YoYoActivity extends AppCompatActivity {
 
     private void updateStats(String label, final Integer currentStageIndex, final Integer shuttlesRemaining){
         remainingTimeLabel.setText(label);
-        distanceCoveredView.setText(String.valueOf(Utils.distanceCoveredInM(yoYoTest.testStages(), currentStageIndex, shuttlesRemaining)));
-        totalShuttlesCompletedView.setText(String.valueOf(Utils.shuttlesCompleted(yoYoTest.testStages(), currentStageIndex, shuttlesRemaining)));
+        distanceCoveredView.setText(String.valueOf(yoYoTest.distanceCoveredInM(currentStageIndex, shuttlesRemaining)));
+        totalShuttlesCompletedView.setText(String.valueOf(yoYoTest.shuttlesCompleted(currentStageIndex, shuttlesRemaining)));
 
         currentShuttleStageView.setText(String.valueOf(yoYoTest.testStages().get(currentStageIndex).getSpeedLevel()));
         this.shuttlesRemainingView.setText(String.valueOf(shuttlesRemaining));

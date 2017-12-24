@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.am.yo_yo.YoYoActivity">
+    tools:context="com.am.yo_yo.app.YoYoActivity">
 
     <TextView
         android:layout_width="match_parent"

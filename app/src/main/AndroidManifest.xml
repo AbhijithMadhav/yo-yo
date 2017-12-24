@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".HomeActivity">
+        <activity android:name=".app.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -17,15 +17,15 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".CompletedActivity"
-            android:parentActivityName=".HomeActivity">
+            android:name=".app.CompletedActivity"
+            android:parentActivityName=".app.HomeActivity">
 
             <!-- The meta-data tag is required if you support API level 15 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".HomeActivity" />
+                android:value=".app.HomeActivity" />
         </activity>
-        <activity android:name=".YoYoActivity"></activity>
+        <activity android:name=".app.YoYoActivity"></activity>
     </application>
 
 </manifest>
