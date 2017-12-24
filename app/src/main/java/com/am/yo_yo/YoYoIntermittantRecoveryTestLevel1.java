@@ -13,21 +13,21 @@ public class YoYoIntermittantRecoveryTestLevel1 extends YoYoTest {
     private static final ArrayList<Stage> TEST_STAGES = new ArrayList<>();
 
     static {
-        TEST_STAGES.add(new Stage(5, 1, 10f));
-        TEST_STAGES.add(new Stage(8, 1, 11.5f));
-        TEST_STAGES.add(new Stage(11, 2, 13f));
-        TEST_STAGES.add(new Stage(12, 3, 13.5f));
-        TEST_STAGES.add(new Stage(13, 4, 14f));
-        TEST_STAGES.add(new Stage(14, 8, 14.5f));
-        TEST_STAGES.add(new Stage(15, 8, 15f));
-        TEST_STAGES.add(new Stage(16, 8, 15.5f));
-        TEST_STAGES.add(new Stage(17, 8, 16f));
-        TEST_STAGES.add(new Stage(18, 8, 16.5f));
-        TEST_STAGES.add(new Stage(19, 8, 17f));
-        TEST_STAGES.add(new Stage(20, 8, 17.5f));
-        TEST_STAGES.add(new Stage(21, 8, 18f));
-        TEST_STAGES.add(new Stage(22, 8, 18.5f));
-        TEST_STAGES.add(new Stage(23, 8, 19f));
+        TEST_STAGES.add(new Stage(5f, 1, 10f));
+        TEST_STAGES.add(new Stage(8f, 1, 11.5f));
+        TEST_STAGES.add(new Stage(11f, 2, 13f));
+        TEST_STAGES.add(new Stage(12f, 3, 13.5f));
+        TEST_STAGES.add(new Stage(13f, 4, 14f));
+        TEST_STAGES.add(new Stage(14f, 8, 14.5f));
+        TEST_STAGES.add(new Stage(15f, 8, 15f));
+        TEST_STAGES.add(new Stage(16f, 8, 15.5f));
+        TEST_STAGES.add(new Stage(17f, 8, 16f));
+        TEST_STAGES.add(new Stage(18f, 8, 16.5f));
+        TEST_STAGES.add(new Stage(19f, 8, 17f));
+        TEST_STAGES.add(new Stage(20f, 8, 17.5f));
+        TEST_STAGES.add(new Stage(21f, 8, 18f));
+        TEST_STAGES.add(new Stage(22f, 8, 18.5f));
+        TEST_STAGES.add(new Stage(23f, 8, 19f));
     }
 
     @Override

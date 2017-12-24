@@ -46,7 +46,7 @@ public class CompletedActivity extends AppCompatActivity {
 
         completedShuttlesView.setText(String.valueOf(Utils.shuttlesCompleted(yoYoTest.testStages(), currentStageIndex, shuttlesRemaining)));
         completedLevelView.setText(
-                yoYoTest.testStages().get(currentStageIndex).getStageId()
+                yoYoTest.testStages().get(currentStageIndex).getSpeedLevel()
                         + ":"
                         + (yoYoTest.testStages().get(currentStageIndex).getNumShuttles() - shuttlesRemaining)
         );

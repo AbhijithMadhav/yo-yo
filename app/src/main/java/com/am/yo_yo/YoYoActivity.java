@@ -236,7 +236,7 @@ public class YoYoActivity extends AppCompatActivity {
         distanceCoveredView.setText(String.valueOf(Utils.distanceCoveredInM(yoYoTest.testStages(), currentStageIndex, shuttlesRemaining)));
         totalShuttlesCompletedView.setText(String.valueOf(Utils.shuttlesCompleted(yoYoTest.testStages(), currentStageIndex, shuttlesRemaining)));
 
-        currentShuttleStageView.setText(String.valueOf(yoYoTest.testStages().get(currentStageIndex).getStageId()));
+        currentShuttleStageView.setText(String.valueOf(yoYoTest.testStages().get(currentStageIndex).getSpeedLevel()));
         this.shuttlesRemainingView.setText(String.valueOf(shuttlesRemaining));
         currentSpeedView.setText(String.valueOf(yoYoTest.testStages().get(currentStageIndex).getSpeedInKph()));
         currentSpeedUnitsView.setText("Kph");
@@ -246,7 +246,7 @@ public class YoYoActivity extends AppCompatActivity {
         Stage nextStage;
         if (nextStageIndex < yoYoTest.testStages().size()) {
             nextStage = yoYoTest.testStages().get(nextStageIndex);
-            upcomingShuttleStageView.setText(String.valueOf(nextStage.getStageId()));
+            upcomingShuttleStageView.setText(String.valueOf(nextStage.getSpeedLevel()));
             numberOfShuttlesView.setText(String.valueOf(nextStage.getNumShuttles()));
             upcomingSpeedView.setText(String.valueOf(nextStage.getSpeedInKph()));
             upcomingSpeedUnitsView.setText("Kph");
