@@ -3,7 +3,10 @@ package com.am.yo_yo.app;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.method.LinkMovementMethod;
 import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.am.yo_yo.R;
 import com.am.yo_yo.test.YoYoIntermittantEnduranceTestLevel1;
@@ -36,6 +39,12 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        TextView yyitView = findViewById(R.id.yyitTest);
+        yyitView.setMovementMethod(LinkMovementMethod.getInstance());
+
+        TextView yyirtTestLevelsView = findViewById(R.id.yyirtTestLevels);
+        yyirtTestLevelsView.setMovementMethod(LinkMovementMethod.getInstance());
+
         Button yyirtL1StartButton = findViewById(R.id.yyirtL1StartButton);
         yyirtL1StartButton.setOnClickListener(view -> {
             startActivity(
@@ -52,6 +61,9 @@ public class HomeActivity extends AppCompatActivity {
             );
         });
 
+        TextView yyietTestLevelsView = findViewById(R.id.yyietTestLevels);
+        yyietTestLevelsView.setMovementMethod(LinkMovementMethod.getInstance());
+
         Button yyietL1StartButton = findViewById(R.id.yyietL1StartButton);
         yyietL1StartButton.setOnClickListener(view -> {
             startActivity(
@@ -67,6 +79,23 @@ public class HomeActivity extends AppCompatActivity {
                             .putExtra(Constants.TEST_NAME, YO_YO_INTERMITTENT_ENDURANCE_TEST_LEVEL_2.testName())
             );
         });
+
+        TextView yyetView = findViewById(R.id.yyetTest);
+        yyetView.setMovementMethod(LinkMovementMethod.getInstance());
+
+        Button yyetL1StartButton = findViewById(R.id.yyetL1StartButton);
+        yyetL1StartButton.setOnClickListener(view -> {
+            Toast toast = Toast.makeText(getApplicationContext(), "Not Yet Implemented", Toast.LENGTH_SHORT);
+            toast.show();
+        });
+
+        Button yyetL2StartButton = findViewById(R.id.yyetL2StartButton);
+        yyetL2StartButton.setOnClickListener(view -> {
+            Toast toast = Toast.makeText(getApplicationContext(), "Not Yet Implemented", Toast.LENGTH_SHORT);
+            toast.show();
+        });
+
+
     }
 
 

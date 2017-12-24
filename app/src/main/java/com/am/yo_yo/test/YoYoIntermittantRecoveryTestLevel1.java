@@ -1,5 +1,7 @@
 package com.am.yo_yo.test;
 
+import android.net.Uri;
+
 import java.util.ArrayList;
 
 /**
@@ -9,6 +11,7 @@ import java.util.ArrayList;
 public class YoYoIntermittantRecoveryTestLevel1 extends YoYoTest {
 
     private static final String TEST_NAME = "Yo-Yo Intermittent Recovery Test - Level 1";
+    private static final Uri TEST_NORM_URI = Uri.parse("http://www.topendsports.com/testing/norms/yo-yo.htm");
     private static final Long REST_TIME_IN_MILLIS = 11000L;
     private static final ArrayList<Stage> TEST_STAGES = new ArrayList<>();
 
@@ -45,5 +48,8 @@ public class YoYoIntermittantRecoveryTestLevel1 extends YoYoTest {
         return TEST_NAME;
     }
 
-
+    @Override
+    public Uri testNormUri() {
+        return TEST_NORM_URI;
+    }
 }

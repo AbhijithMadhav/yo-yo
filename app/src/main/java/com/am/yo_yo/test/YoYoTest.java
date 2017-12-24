@@ -1,5 +1,7 @@
 package com.am.yo_yo.test;
 
+import android.net.Uri;
+
 import java.util.ArrayList;
 
 /**
@@ -15,6 +17,8 @@ public abstract class YoYoTest {
     public abstract Long restIntervalInMills();
 
     public abstract String testName();
+
+    public abstract Uri testNormUri();
 
     public Integer distanceCoveredInM(Integer currentStageIndex, Integer shuttlesRemaining) {
         return shuttlesCompleted(currentStageIndex, shuttlesRemaining) * SHUTTLE_LENGTH_IN_METERS;

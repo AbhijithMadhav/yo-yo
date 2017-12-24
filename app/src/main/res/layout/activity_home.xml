@@ -6,49 +6,47 @@
     android:orientation="vertical"
     tools:context="com.am.yo_yo.app.HomeActivity">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:padding="@dimen/fab_margin"
+        android:text="@string/yyitTest"
+        android:id="@+id/yyitTest"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:gravity="center"
-        android:padding="@dimen/fab_margin">
+        android:gravity="center">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/yyirt"/>
+            android:text="@string/yyirtTestLevels"
+            android:id="@+id/yyirtTestLevels"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/l1"/>
+
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/start"
+                android:text="@string/l1"
                 android:id="@+id/yyirtL1StartButton"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/l2"/>
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/start"
+                android:text="@string/l2"
                 android:id="@+id/yyirtL2StartButton"/>
         </LinearLayout>
 
     </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -59,7 +57,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/yyiet"/>
+        android:text="@string/yyietTestLevels"
+        android:id="@+id/yyietTestLevels"/>
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -76,5 +75,35 @@
                 android:id="@+id/yyietL2StartButton"/>
         </LinearLayout>
     </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:padding="@dimen/fab_margin"
+        android:text="@string/yyetTest"
+        android:id="@+id/yyetTest"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/l1"
+                android:id="@+id/yyetL1StartButton"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/l2"
+                android:id="@+id/yyetL2StartButton"/>
+        </LinearLayout>
+
 
 </LinearLayout>

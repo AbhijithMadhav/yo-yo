@@ -6,10 +6,9 @@ import java.util.ArrayList;
  * Created by amadhav on 24/12/17.
  */
 
-public class YoYoIntermittantRecoveryTestLevel2 extends YoYoTest {
+public class YoYoIntermittantRecoveryTestLevel2 extends YoYoIntermittantRecoveryTestLevel1 {
 
     private static final String TEST_NAME = "Yo-Yo Intermittent Recovery Test - Level 1";
-    private static final Long REST_TIME_IN_MILLIS = 11000L;
 
     private static final ArrayList<Stage> TEST_STAGES = new ArrayList<>();
     static {
@@ -33,11 +32,6 @@ public class YoYoIntermittantRecoveryTestLevel2 extends YoYoTest {
     @Override
     public ArrayList<Stage> testStages() {
         return TEST_STAGES;
-    }
-
-    @Override
-    public Long restIntervalInMills() {
-        return REST_TIME_IN_MILLIS;
     }
 
     @Override
