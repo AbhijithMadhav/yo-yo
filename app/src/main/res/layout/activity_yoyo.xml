@@ -6,6 +6,15 @@
     android:orientation="vertical"
     tools:context="com.am.yo_yo.YoYoActivity">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Test Name"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:padding="@dimen/fab_margin"
+        android:id="@+id/testName"
+        android:gravity="center"/>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -1,13 +1,12 @@
 package com.am.yo_yo;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 
-import static com.am.yo_yo.Constants.SHUTTLES_REMAINING;
-import static com.am.yo_yo.Constants.STAGES;
-import static com.am.yo_yo.Constants.STAGE_INDEX;
+import static com.am.yo_yo.Constants.TEST_NAME;
+import static com.am.yo_yo.Constants.YO_YO_INTERMITTENT_RECOVERY_TEST_LEVEL_1;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -15,13 +14,12 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        Button startButton = findViewById(R.id.startButton);
+        Button yyirtL1StartButton = findViewById(R.id.yyirtL1StartButton);
 
-        startButton.setOnClickListener(view -> {
+        yyirtL1StartButton.setOnClickListener(view -> {
             startActivity(
                     new Intent(HomeActivity.this, YoYoActivity.class)
-                            .putExtra(STAGE_INDEX, 0)
-                            .putExtra(SHUTTLES_REMAINING, STAGES.get(0).getNumShuttles())
+                            .putExtra(TEST_NAME, YO_YO_INTERMITTENT_RECOVERY_TEST_LEVEL_1)
             );
         });
 

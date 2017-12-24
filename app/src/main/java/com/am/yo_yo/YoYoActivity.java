@@ -2,26 +2,30 @@ package com.am.yo_yo;
 
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 
 import static com.am.yo_yo.Constants.COUNT_DOWN_INTERVAL_IN_MILLIS;
 import static com.am.yo_yo.Constants.MILLIS_IN_ONE_SEC;
 import static com.am.yo_yo.Constants.REST_TIME_IN_MILLIS;
 import static com.am.yo_yo.Constants.SHUTTLES_REMAINING;
-import static com.am.yo_yo.Constants.STAGES;
 import static com.am.yo_yo.Constants.STAGE_INDEX;
+import static com.am.yo_yo.Constants.TEST_NAME;
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
 
 public class YoYoActivity extends AppCompatActivity {
 
+
+    private TextView testNameView;
+    private String testName;
 
     private TextView remainingTimeLabel;
     private TextView remainingTimeView;
@@ -46,6 +50,7 @@ public class YoYoActivity extends AppCompatActivity {
     private CountDownTimer restCountDownTimer;
     private CountDownTimer shuttleCountDownTimer;
 
+    private ArrayList<Stage> testStages;
     private Integer currentStageIndex;
     private Integer shuttlesRemaining;
 
@@ -59,6 +64,10 @@ public class YoYoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_yoyo);
+
+        testNameView = findViewById(R.id.testName);
+        testName = getIntent().getStringExtra(TEST_NAME);
+        testNameView.setText(testName);
 
         // count down
         remainingTimeLabel = findViewById(R.id.remainingTimeLabel);
@@ -96,8 +105,9 @@ public class YoYoActivity extends AppCompatActivity {
         upcomingStageStatsLayout.setVisibility(LinearLayout.GONE);
 
         // Input from intent
+        testStages = Constants.testStagesMap.get(getIntent().getStringExtra(TEST_NAME));
         currentStageIndex = 0;
-        shuttlesRemaining = STAGES.get(currentStageIndex).getNumShuttles();
+        shuttlesRemaining = testStages.get(currentStageIndex).getNumShuttles();
 
         // Stop
         stopButton = findViewById(R.id.stopButton);
@@ -105,6 +115,7 @@ public class YoYoActivity extends AppCompatActivity {
             cancelTimers();
             startActivity(
                     new Intent(this, CompletedActivity.class)
+                            .putExtra(TEST_NAME, testName)
                             .putExtra(STAGE_INDEX, currentStageIndex)
                             .putExtra(SHUTTLES_REMAINING, shuttlesRemaining)
             );
@@ -150,8 +161,8 @@ public class YoYoActivity extends AppCompatActivity {
                 }
                 else {
                     Integer nextStageIndex = currentStageIndex + 1;
-                    if (nextStageIndex < STAGES.size()) {
-                        shuttleCountDown(nextStageIndex, STAGES.get(nextStageIndex).getNumShuttles());
+                    if (nextStageIndex < testStages.size()) {
+                        shuttleCountDown(nextStageIndex, testStages.get(nextStageIndex).getNumShuttles());
                     } else {
                         throw new RuntimeException("No rest after the last stage and the last shuttle");
                     }
@@ -167,7 +178,7 @@ public class YoYoActivity extends AppCompatActivity {
 
         updateStatusForShuttling(currentStageIndex, shuttlesRemaining);
 
-        Stage currentStage = STAGES.get(currentStageIndex);
+        Stage currentStage = testStages.get(currentStageIndex);
 
         long timeToCompleteShuttleInMillis = (long)((Stage.DISTANCE_IN_METERS * MILLIS_IN_ONE_SEC/ currentStage.getSpeedInMps()));
 
@@ -196,10 +207,10 @@ public class YoYoActivity extends AppCompatActivity {
                 }
                 else {
                     Integer nextStageIndex = currentStageIndex + 1;
-                    if (nextStageIndex < STAGES.size()) {
-                        restCountDown(nextStageIndex, STAGES.get(nextStageIndex).getNumShuttles());
+                    if (nextStageIndex < testStages.size()) {
+                        restCountDown(nextStageIndex, testStages.get(nextStageIndex).getNumShuttles());
                         YoYoActivity.this.currentStageIndex = nextStageIndex;
-                        YoYoActivity.this.shuttlesRemaining = STAGES.get(nextStageIndex).getNumShuttles();
+                        YoYoActivity.this.shuttlesRemaining = testStages.get(nextStageIndex).getNumShuttles();
                     } else {
                         YoYoActivity.this.currentStageIndex = currentStageIndex;
                         YoYoActivity.this.shuttlesRemaining = 0;
@@ -225,19 +236,19 @@ public class YoYoActivity extends AppCompatActivity {
 
     private void updateStats(String label, final Integer currentStageIndex, final Integer shuttlesRemaining){
         remainingTimeLabel.setText(label);
-        distanceCoveredView.setText(String.valueOf(Utils.distanceCoveredInM(currentStageIndex, shuttlesRemaining)));
-        totalShuttlesCompletedView.setText(String.valueOf(Utils.shuttlesCompleted(currentStageIndex, shuttlesRemaining)));
+        distanceCoveredView.setText(String.valueOf(Utils.distanceCoveredInM(testStages, currentStageIndex, shuttlesRemaining)));
+        totalShuttlesCompletedView.setText(String.valueOf(Utils.shuttlesCompleted(testStages, currentStageIndex, shuttlesRemaining)));
 
-        currentShuttleStageView.setText(String.valueOf(STAGES.get(currentStageIndex).getStageId()));
+        currentShuttleStageView.setText(String.valueOf(testStages.get(currentStageIndex).getStageId()));
         this.shuttlesRemainingView.setText(String.valueOf(shuttlesRemaining));
-        currentSpeedView.setText(String.valueOf(STAGES.get(currentStageIndex).getSpeedInKph()));
+        currentSpeedView.setText(String.valueOf(testStages.get(currentStageIndex).getSpeedInKph()));
         currentSpeedUnitsView.setText("Kph");
 
 
         Integer nextStageIndex = currentStageIndex + 1;
         Stage nextStage;
-        if (nextStageIndex < STAGES.size()) {
-            nextStage = STAGES.get(nextStageIndex);
+        if (nextStageIndex < testStages.size()) {
+            nextStage = testStages.get(nextStageIndex);
             upcomingShuttleStageView.setText(String.valueOf(nextStage.getStageId()));
             numberOfShuttlesView.setText(String.valueOf(nextStage.getNumShuttles()));
             upcomingSpeedView.setText(String.valueOf(nextStage.getSpeedInKph()));

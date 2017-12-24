@@ -2,12 +2,11 @@
     <string name="app_name">Yo-Yo</string>
 
     <string name="rest">REST</string>
-    <string name="zero">0</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="run">RUN</string>
-    <string name="uptoNow">Upto Now</string>
-    <string name="countDownLabel">Count Down Label</string>
-    <string name="title_activity_rest">RestActivity</string>
+    <string name="yyirt">Yo-Yo Intermittent Recovery Test</string>
+    <string name="yyiet">Yo-Yo Intermittent Endurance Test</string>
+    <string name="l1">Level 1</string>
+    <string name="l2">Level 2</string>
+    <string name="start">Start</string>
+
 </resources>

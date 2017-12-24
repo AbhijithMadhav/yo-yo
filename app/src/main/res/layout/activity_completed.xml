@@ -7,6 +7,17 @@
     android:orientation="vertical"
     tools:context="com.am.yo_yo.CompletedActivity">
 
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="TEST NAME"
+        android:textStyle="bold"
+        android:textSize="15sp"
+        android:id="@+id/testName"
+        android:padding="@dimen/fab_margin"/>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
