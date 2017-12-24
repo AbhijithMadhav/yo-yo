@@ -3,11 +3,7 @@ package com.am.yo_yo;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static com.am.yo_yo.Constants.SHUTTLES_REMAINING;
 import static com.am.yo_yo.Constants.STAGES;
@@ -23,7 +19,7 @@ public class HomeActivity extends AppCompatActivity {
 
         startButton.setOnClickListener(view -> {
             startActivity(
-                    new Intent(HomeActivity.this, RestActivity.class)
+                    new Intent(HomeActivity.this, YoYoActivity.class)
                             .putExtra(STAGE_INDEX, 0)
                             .putExtra(SHUTTLES_REMAINING, STAGES.get(0).getNumShuttles())
             );
