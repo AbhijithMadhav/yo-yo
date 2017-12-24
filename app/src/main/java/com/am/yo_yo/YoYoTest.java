@@ -6,7 +6,11 @@ import java.util.ArrayList;
  * Created by amadhav on 24/12/17.
  */
 
-public interface YoYoTest {
+public abstract class YoYoTest {
 
-    ArrayList<Stage> stages();
+    public abstract ArrayList<Stage> testStages();
+
+    public abstract Long restIntervalInMills();
+
+    public abstract String testName();
 }

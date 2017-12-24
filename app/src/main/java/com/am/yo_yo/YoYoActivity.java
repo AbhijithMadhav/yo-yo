@@ -10,11 +10,8 @@ import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-
 import static com.am.yo_yo.Constants.COUNT_DOWN_INTERVAL_IN_MILLIS;
 import static com.am.yo_yo.Constants.MILLIS_IN_ONE_SEC;
-import static com.am.yo_yo.Constants.REST_TIME_IN_MILLIS;
 import static com.am.yo_yo.Constants.SHUTTLES_REMAINING;
 import static com.am.yo_yo.Constants.STAGE_INDEX;
 import static com.am.yo_yo.Constants.TEST_NAME;
@@ -50,7 +47,7 @@ public class YoYoActivity extends AppCompatActivity {
     private CountDownTimer restCountDownTimer;
     private CountDownTimer shuttleCountDownTimer;
 
-    private ArrayList<Stage> testStages;
+    private YoYoTest yoYoTest;
     private Integer currentStageIndex;
     private Integer shuttlesRemaining;
 
@@ -105,9 +102,9 @@ public class YoYoActivity extends AppCompatActivity {
         upcomingStageStatsLayout.setVisibility(LinearLayout.GONE);
 
         // Input from intent
-        testStages = Constants.TEST_STAGES_MAP.get(getIntent().getStringExtra(TEST_NAME));
+        yoYoTest = HomeActivity.TEST_MAP.get(getIntent().getStringExtra(TEST_NAME));
         currentStageIndex = 0;
-        shuttlesRemaining = testStages.get(currentStageIndex).getNumShuttles();
+        shuttlesRemaining = yoYoTest.testStages().get(currentStageIndex).getNumShuttles();
 
         // Stop
         stopButton = findViewById(R.id.stopButton);
@@ -143,7 +140,7 @@ public class YoYoActivity extends AppCompatActivity {
         updateStatsForRest(currentStageIndex, shuttlesRemaining);
 
         // storing timer in reference variable so as to get a handle to cancel the same in some other life cycle stage of the activity
-        restCountDownTimer = new CountDownTimer(REST_TIME_IN_MILLIS, COUNT_DOWN_INTERVAL_IN_MILLIS) {
+        restCountDownTimer = new CountDownTimer(yoYoTest.restIntervalInMills(), COUNT_DOWN_INTERVAL_IN_MILLIS) {
 
             private Boolean tick = FALSE;
             public void onTick(long millisUntilFinished) {
@@ -161,8 +158,8 @@ public class YoYoActivity extends AppCompatActivity {
                 }
                 else {
                     Integer nextStageIndex = currentStageIndex + 1;
-                    if (nextStageIndex < testStages.size()) {
-                        shuttleCountDown(nextStageIndex, testStages.get(nextStageIndex).getNumShuttles());
+                    if (nextStageIndex < yoYoTest.testStages().size()) {
+                        shuttleCountDown(nextStageIndex, yoYoTest.testStages().get(nextStageIndex).getNumShuttles());
                     } else {
                         throw new RuntimeException("No rest after the last stage and the last shuttle");
                     }
@@ -178,7 +175,7 @@ public class YoYoActivity extends AppCompatActivity {
 
         updateStatusForShuttling(currentStageIndex, shuttlesRemaining);
 
-        Stage currentStage = testStages.get(currentStageIndex);
+        Stage currentStage = yoYoTest.testStages().get(currentStageIndex);
 
         long timeToCompleteShuttleInMillis = (long)((Stage.DISTANCE_IN_METERS * MILLIS_IN_ONE_SEC/ currentStage.getSpeedInMps()));
 
@@ -207,10 +204,10 @@ public class YoYoActivity extends AppCompatActivity {
                 }
                 else {
                     Integer nextStageIndex = currentStageIndex + 1;
-                    if (nextStageIndex < testStages.size()) {
-                        restCountDown(nextStageIndex, testStages.get(nextStageIndex).getNumShuttles());
+                    if (nextStageIndex < yoYoTest.testStages().size()) {
+                        restCountDown(nextStageIndex, yoYoTest.testStages().get(nextStageIndex).getNumShuttles());
                         YoYoActivity.this.currentStageIndex = nextStageIndex;
-                        YoYoActivity.this.shuttlesRemaining = testStages.get(nextStageIndex).getNumShuttles();
+                        YoYoActivity.this.shuttlesRemaining = yoYoTest.testStages().get(nextStageIndex).getNumShuttles();
                     } else {
                         YoYoActivity.this.currentStageIndex = currentStageIndex;
                         YoYoActivity.this.shuttlesRemaining = 0;
@@ -236,19 +233,19 @@ public class YoYoActivity extends AppCompatActivity {
 
     private void updateStats(String label, final Integer currentStageIndex, final Integer shuttlesRemaining){
         remainingTimeLabel.setText(label);
-        distanceCoveredView.setText(String.valueOf(Utils.distanceCoveredInM(testStages, currentStageIndex, shuttlesRemaining)));
-        totalShuttlesCompletedView.setText(String.valueOf(Utils.shuttlesCompleted(testStages, currentStageIndex, shuttlesRemaining)));
+        distanceCoveredView.setText(String.valueOf(Utils.distanceCoveredInM(yoYoTest.testStages(), currentStageIndex, shuttlesRemaining)));
+        totalShuttlesCompletedView.setText(String.valueOf(Utils.shuttlesCompleted(yoYoTest.testStages(), currentStageIndex, shuttlesRemaining)));
 
-        currentShuttleStageView.setText(String.valueOf(testStages.get(currentStageIndex).getStageId()));
+        currentShuttleStageView.setText(String.valueOf(yoYoTest.testStages().get(currentStageIndex).getStageId()));
         this.shuttlesRemainingView.setText(String.valueOf(shuttlesRemaining));
-        currentSpeedView.setText(String.valueOf(testStages.get(currentStageIndex).getSpeedInKph()));
+        currentSpeedView.setText(String.valueOf(yoYoTest.testStages().get(currentStageIndex).getSpeedInKph()));
         currentSpeedUnitsView.setText("Kph");
 
 
         Integer nextStageIndex = currentStageIndex + 1;
         Stage nextStage;
-        if (nextStageIndex < testStages.size()) {
-            nextStage = testStages.get(nextStageIndex);
+        if (nextStageIndex < yoYoTest.testStages().size()) {
+            nextStage = yoYoTest.testStages().get(nextStageIndex);
             upcomingShuttleStageView.setText(String.valueOf(nextStage.getStageId()));
             numberOfShuttlesView.setText(String.valueOf(nextStage.getNumShuttles()));
             upcomingSpeedView.setText(String.valueOf(nextStage.getSpeedInKph()));

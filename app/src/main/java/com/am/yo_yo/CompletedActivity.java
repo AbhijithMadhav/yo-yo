@@ -4,8 +4,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-
 import static com.am.yo_yo.Constants.SHUTTLES_REMAINING;
 import static com.am.yo_yo.Constants.STAGE_INDEX;
 import static com.am.yo_yo.Constants.TEST_NAME;
@@ -18,7 +16,7 @@ public class CompletedActivity extends AppCompatActivity {
     private TextView distanceCoveredView;
     private TextView totalTimeView;
 
-    private ArrayList<Stage> testStages;
+    private YoYoTest yoYoTest;
     private Integer shuttlesRemaining;
     private int currentStageIndex;
     private String testName;
@@ -37,7 +35,7 @@ public class CompletedActivity extends AppCompatActivity {
         distanceCoveredView = findViewById(R.id.distanceCovered);
         totalTimeView = findViewById(R.id.totalTime);
 
-        testStages = Constants.TEST_STAGES_MAP.get(getIntent().getStringExtra(TEST_NAME));
+        yoYoTest = HomeActivity.TEST_MAP.get(getIntent().getStringExtra(TEST_NAME));
         currentStageIndex = getIntent().getIntExtra(STAGE_INDEX, 0);
         shuttlesRemaining = getIntent().getIntExtra(SHUTTLES_REMAINING, 0);
     }
@@ -46,13 +44,13 @@ public class CompletedActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        completedShuttlesView.setText(String.valueOf(Utils.shuttlesCompleted(testStages, currentStageIndex, shuttlesRemaining)));
+        completedShuttlesView.setText(String.valueOf(Utils.shuttlesCompleted(yoYoTest.testStages(), currentStageIndex, shuttlesRemaining)));
         completedLevelView.setText(
-                testStages.get(currentStageIndex).getStageId()
+                yoYoTest.testStages().get(currentStageIndex).getStageId()
                         + ":"
-                        + (testStages.get(currentStageIndex).getNumShuttles() - shuttlesRemaining)
+                        + (yoYoTest.testStages().get(currentStageIndex).getNumShuttles() - shuttlesRemaining)
         );
-        distanceCoveredView.setText(String.valueOf(Utils.distanceCoveredInM(testStages, currentStageIndex, shuttlesRemaining)));
+        distanceCoveredView.setText(String.valueOf(Utils.distanceCoveredInM(yoYoTest.testStages(), currentStageIndex, shuttlesRemaining)));
 
     }
 }
