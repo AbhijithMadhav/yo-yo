@@ -55,7 +55,9 @@ public class YoYoActivity extends AppCompatActivity {
     private MediaPlayer beepMediaPlayer;
     private MediaPlayer halfBeepMediaPlayer;
 
+    private static final String TAG = YoYoActivity.class.getSimpleName();
 
+    private Boolean fromOnCreate = FALSE;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,13 +126,21 @@ public class YoYoActivity extends AppCompatActivity {
         tickMediaPlayer = MediaPlayer.create(this, R.raw.beep07);
         beepMediaPlayer = MediaPlayer.create(this, R.raw.beep01a);
         halfBeepMediaPlayer = MediaPlayer.create(this, R.raw.beep02);
+
+        fromOnCreate = TRUE;
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        startRun(currentStageIndex, shuttlesRemaining);
+
+        // Want to start a new run only if state is changing from onCreate -> onStart
+        // Not if comming of onStop -> onRestart -> onStart which indicates that the app was bought into foreground. Just continue the existing run
+        if (fromOnCreate)
+            startRun(currentStageIndex, shuttlesRemaining);
+        fromOnCreate = FALSE;
     }
+
 
     private void startRun(Integer currentStageIndex, Integer shuttlesRemaining) {
         restCountDown(currentStageIndex, shuttlesRemaining);
@@ -257,6 +267,7 @@ public class YoYoActivity extends AppCompatActivity {
             upcomingSpeedUnitsView.setText("");
         }
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
