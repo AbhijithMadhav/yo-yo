@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * Created by amadhav on 24/12/17.
  */
 
-public class YoYoIntermittantEnduranceTestLevel2 extends YoYoIntermittantRecoveryTestLevel1 {
+public class YoYoIntermittantEnduranceTestLevel2 extends YoYoIntermittantEnduranceTestLevel1 {
 
     private static final String TEST_NAME = "Yo-Yo Intermittent Endurance Test - Level 2";
     private static final ArrayList<Stage> TEST_STAGES = new ArrayList<>();
