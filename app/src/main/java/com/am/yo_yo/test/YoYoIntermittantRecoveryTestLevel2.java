@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class YoYoIntermittantRecoveryTestLevel2 extends YoYoIntermittantRecoveryTestLevel1 {
 
-    private static final String TEST_NAME = "Yo-Yo Intermittent Recovery Test - Level 1";
+    private static final String TEST_NAME = "Yo-Yo Intermittent Recovery Test - Level 2";
 
     private static final ArrayList<Stage> TEST_STAGES = new ArrayList<>();
     static {

@@ -36,6 +36,15 @@ public class Stage {
         return speedInMps;
     }
 
-
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Stage{");
+        sb.append("speedLevel=").append(speedLevel);
+        sb.append(", numShuttles=").append(numShuttles);
+        sb.append(", speedInKph=").append(speedInKph);
+        sb.append(", speedInMps=").append(speedInMps);
+        sb.append('}');
+        return sb.toString();
+    }
 }
 
