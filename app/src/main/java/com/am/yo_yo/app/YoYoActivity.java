@@ -214,7 +214,7 @@ public class YoYoActivity extends AppCompatActivity {
         long timeToCompleteShuttleInMillis = (long)((SHUTTLE_LENGTH_IN_METERS * MILLIS_IN_ONE_SEC/ currentStage.getSpeedInMps()));
 
         // storing timer in reference variable so as to get a handle to cancel the same in some other life cycle stage of the activity
-        shuttleCountDownTimer = new CountDownTimer(timeToCompleteShuttleInMillis, SHUTTLE_COUNT_DOWN_INTERVAL_IN_MILLISq) {
+        shuttleCountDownTimer = new CountDownTimer(timeToCompleteShuttleInMillis, SHUTTLE_COUNT_DOWN_INTERVAL_IN_MILLIS) {
 
             private final DecimalFormat SINGLE_DIGIT_FORMAT = new DecimalFormat("#.#");
             private Boolean halfBeep = TRUE;
