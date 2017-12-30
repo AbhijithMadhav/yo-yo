@@ -5,6 +5,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Switch;
@@ -14,6 +15,7 @@ import com.am.yo_yo.R;
 import com.am.yo_yo.test.Stage;
 import com.am.yo_yo.test.YoYoTest;
 
+import static com.am.yo_yo.app.Constants.MILLIS_IN_ONE_SEC;
 import static com.am.yo_yo.test.YoYoTest.SHUTTLE_LENGTH_IN_METERS;
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
@@ -55,6 +57,8 @@ public class YoYoActivity extends AppCompatActivity {
     private MediaPlayer beepMediaPlayer;
     private MediaPlayer halfBeepMediaPlayer;
 
+    private MediaPlayer[] restCountDownMediaPlayer;
+
     private static final String TAG = YoYoActivity.class.getSimpleName();
 
     private Boolean fromOnCreate = FALSE;
@@ -63,6 +67,7 @@ public class YoYoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_yoyo);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         testNameView = findViewById(R.id.testName);
         testName = getIntent().getStringExtra(Constants.TEST_NAME);
@@ -127,6 +132,19 @@ public class YoYoActivity extends AppCompatActivity {
         beepMediaPlayer = MediaPlayer.create(this, R.raw.beep01a);
         halfBeepMediaPlayer = MediaPlayer.create(this, R.raw.beep02);
 
+        restCountDownMediaPlayer = new MediaPlayer[11];
+        restCountDownMediaPlayer[0] = MediaPlayer.create(this, R.raw.go);
+        restCountDownMediaPlayer[1] = MediaPlayer.create(this, R.raw.one);
+        restCountDownMediaPlayer[2] = MediaPlayer.create(this, R.raw.two);
+        restCountDownMediaPlayer[3] = MediaPlayer.create(this, R.raw.three);
+        restCountDownMediaPlayer[4] = MediaPlayer.create(this, R.raw.four);
+        restCountDownMediaPlayer[5] = MediaPlayer.create(this, R.raw.five);
+        restCountDownMediaPlayer[6] = MediaPlayer.create(this, R.raw.six);
+        restCountDownMediaPlayer[7] = MediaPlayer.create(this, R.raw.seven);
+        restCountDownMediaPlayer[8] = MediaPlayer.create(this, R.raw.eight);
+        restCountDownMediaPlayer[9] = MediaPlayer.create(this, R.raw.nine);
+        restCountDownMediaPlayer[10] = MediaPlayer.create(this, R.raw.ten);
+
         fromOnCreate = TRUE;
     }
 
@@ -152,17 +170,20 @@ public class YoYoActivity extends AppCompatActivity {
         // storing timer in reference variable so as to get a handle to cancel the same in some other life cycle stage of the activity
         restCountDownTimer = new CountDownTimer(yoYoTest.restIntervalInMills(), Constants.COUNT_DOWN_INTERVAL_IN_MILLIS) {
 
+            private int count = (int) (yoYoTest.restIntervalInMills()/MILLIS_IN_ONE_SEC) - 1;
             private Boolean tick = FALSE;
             public void onTick(long millisUntilFinished) {
-                remainingTimeView.setText(String.valueOf(millisUntilFinished / Constants.MILLIS_IN_ONE_SEC));
                 if (tick)
-                    tickMediaPlayer.start();
+                    //tickMediaPlayer.start();
+                    restCountDownMediaPlayer[count--].start();
                 tick = !tick;
+                remainingTimeView.setText(String.valueOf(millisUntilFinished / MILLIS_IN_ONE_SEC));
             }
 
             public void onFinish() {
 
-                beepMediaPlayer.start();
+                restCountDownMediaPlayer[0].start();
+                //beepMediaPlayer.start();
                 if (shuttlesRemaining > 0) {
                     shuttleCountDown(currentStageIndex, shuttlesRemaining);
                 }
@@ -187,7 +208,7 @@ public class YoYoActivity extends AppCompatActivity {
 
         Stage currentStage = yoYoTest.testStages().get(currentStageIndex);
 
-        long timeToCompleteShuttleInMillis = (long)((SHUTTLE_LENGTH_IN_METERS * Constants.MILLIS_IN_ONE_SEC/ currentStage.getSpeedInMps()));
+        long timeToCompleteShuttleInMillis = (long)((SHUTTLE_LENGTH_IN_METERS * MILLIS_IN_ONE_SEC/ currentStage.getSpeedInMps()));
 
         // storing timer in reference variable so as to get a handle to cancel the same in some other life cycle stage of the activity
         shuttleCountDownTimer = new CountDownTimer(timeToCompleteShuttleInMillis, Constants.COUNT_DOWN_INTERVAL_IN_MILLIS) {
@@ -195,7 +216,7 @@ public class YoYoActivity extends AppCompatActivity {
             private Boolean halfBeep = TRUE;
 
             public void onTick(long millisUntilFinished) {
-                remainingTimeView.setText(String.valueOf(millisUntilFinished / Constants.MILLIS_IN_ONE_SEC));
+                remainingTimeView.setText(String.valueOf(millisUntilFinished / MILLIS_IN_ONE_SEC));
                 if (timeToCompleteShuttleInMillis/millisUntilFinished == 2 && halfBeep) {
                     halfBeepMediaPlayer.start();
                     halfBeep = FALSE;
@@ -278,6 +299,11 @@ public class YoYoActivity extends AppCompatActivity {
         halfBeepMediaPlayer = null;
         beepMediaPlayer.release();
         beepMediaPlayer = null;
+
+        for (int i = 0 ; i < restCountDownMediaPlayer.length; i++) {
+            restCountDownMediaPlayer[i].release();
+            restCountDownMediaPlayer[i] = null;
+        }
     }
 
     private void cancelTimers() {
