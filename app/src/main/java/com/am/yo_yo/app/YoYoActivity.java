@@ -15,7 +15,10 @@ import com.am.yo_yo.R;
 import com.am.yo_yo.test.Stage;
 import com.am.yo_yo.test.YoYoTest;
 
+import java.text.DecimalFormat;
+
 import static com.am.yo_yo.app.Constants.MILLIS_IN_ONE_SEC;
+import static com.am.yo_yo.app.Constants.SHUTTLE_COUNT_DOWN_INTERVAL_IN_MILLIS;
 import static com.am.yo_yo.test.YoYoTest.SHUTTLE_LENGTH_IN_METERS;
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
@@ -168,7 +171,7 @@ public class YoYoActivity extends AppCompatActivity {
         updateStatsForRest(currentStageIndex, shuttlesRemaining);
 
         // storing timer in reference variable so as to get a handle to cancel the same in some other life cycle stage of the activity
-        restCountDownTimer = new CountDownTimer(yoYoTest.restIntervalInMills(), Constants.COUNT_DOWN_INTERVAL_IN_MILLIS) {
+        restCountDownTimer = new CountDownTimer(yoYoTest.restIntervalInMills(), Constants.REST_COUNT_DOWN_INTERVAL_IN_MILLIS) {
 
             private int count = (int) (yoYoTest.restIntervalInMills()/MILLIS_IN_ONE_SEC) - 1;
             private Boolean tick = FALSE;
@@ -211,12 +214,13 @@ public class YoYoActivity extends AppCompatActivity {
         long timeToCompleteShuttleInMillis = (long)((SHUTTLE_LENGTH_IN_METERS * MILLIS_IN_ONE_SEC/ currentStage.getSpeedInMps()));
 
         // storing timer in reference variable so as to get a handle to cancel the same in some other life cycle stage of the activity
-        shuttleCountDownTimer = new CountDownTimer(timeToCompleteShuttleInMillis, Constants.COUNT_DOWN_INTERVAL_IN_MILLIS) {
+        shuttleCountDownTimer = new CountDownTimer(timeToCompleteShuttleInMillis, SHUTTLE_COUNT_DOWN_INTERVAL_IN_MILLISq) {
 
+            private final DecimalFormat SINGLE_DIGIT_FORMAT = new DecimalFormat("#.#");
             private Boolean halfBeep = TRUE;
 
             public void onTick(long millisUntilFinished) {
-                remainingTimeView.setText(String.valueOf(millisUntilFinished / MILLIS_IN_ONE_SEC));
+                remainingTimeView.setText(SINGLE_DIGIT_FORMAT.format(millisUntilFinished / (double)MILLIS_IN_ONE_SEC));
                 if (timeToCompleteShuttleInMillis/millisUntilFinished == 2 && halfBeep) {
                     halfBeepMediaPlayer.start();
                     halfBeep = FALSE;
