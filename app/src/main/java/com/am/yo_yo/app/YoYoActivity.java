@@ -26,15 +26,12 @@ import static java.lang.Boolean.TRUE;
 public class YoYoActivity extends AppCompatActivity {
 
 
-    private TextView testNameView;
     private String testName;
 
     private TextView remainingTimeLabel;
     private TextView remainingTimeView;
     private TextView distanceCoveredView;
     private TextView totalShuttlesCompletedView;
-
-    private Switch detailsSwitch;
 
     private LinearLayout currentStageStatsLayout;
     private TextView currentShuttleStageView;
@@ -48,7 +45,6 @@ public class YoYoActivity extends AppCompatActivity {
     private TextView upcomingSpeedView;
     private TextView upcomingSpeedUnitsView;
 
-    private Button stopButton;
     private CountDownTimer restCountDownTimer;
     private CountDownTimer shuttleCountDownTimer;
 
@@ -72,7 +68,7 @@ public class YoYoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_yoyo);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-        testNameView = findViewById(R.id.testName);
+        TextView testNameView = findViewById(R.id.testName);
         testName = getIntent().getStringExtra(Constants.TEST_NAME);
         testNameView.setText(testName);
 
@@ -95,7 +91,7 @@ public class YoYoActivity extends AppCompatActivity {
         upcomingSpeedView = findViewById(R.id.upcomingSpeed);
         upcomingSpeedUnitsView = findViewById(R.id.upcomingSpeedUnits);
 
-        detailsSwitch = findViewById(R.id.detailsSwitch);
+        Switch detailsSwitch = findViewById(R.id.detailsSwitch);
         detailsSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 currentStageStatsLayout.setVisibility(LinearLayout.VISIBLE);
@@ -117,7 +113,7 @@ public class YoYoActivity extends AppCompatActivity {
         shuttlesRemaining = yoYoTest.testStages().get(currentStageIndex).getNumShuttles();
 
         // Stop
-        stopButton = findViewById(R.id.stopButton);
+        Button stopButton = findViewById(R.id.stopButton);
         stopButton.setOnClickListener(view -> {
             cancelTimers();
             startActivity(
@@ -274,7 +270,7 @@ public class YoYoActivity extends AppCompatActivity {
         currentShuttleStageView.setText(String.valueOf(yoYoTest.testStages().get(currentStageIndex).getSpeedLevel()));
         this.shuttlesRemainingView.setText(String.valueOf(shuttlesRemaining));
         currentSpeedView.setText(String.valueOf(yoYoTest.testStages().get(currentStageIndex).getSpeedInKph()));
-        currentSpeedUnitsView.setText("Kph");
+        currentSpeedUnitsView.setText(R.string.kph);
 
 
         Integer nextStageIndex = currentStageIndex + 1;
@@ -284,7 +280,7 @@ public class YoYoActivity extends AppCompatActivity {
             upcomingShuttleStageView.setText(String.valueOf(nextStage.getSpeedLevel()));
             numberOfShuttlesView.setText(String.valueOf(nextStage.getNumShuttles()));
             upcomingSpeedView.setText(String.valueOf(nextStage.getSpeedInKph()));
-            upcomingSpeedUnitsView.setText("Kph");
+            upcomingSpeedUnitsView.setText(R.string.kph);
         } else {
             upcomingShuttleStageView.setText("-");
             numberOfShuttlesView.setText("-");
