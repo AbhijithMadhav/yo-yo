@@ -12,7 +12,7 @@ public class Constants {
     public static final String TEST_NAME = "testName";
 
 
-    public static final Integer REST_COUNT_DOWN_INTERVAL_IN_MILLIS = 500;
+    public static final Integer REST_COUNT_DOWN_INTERVAL_IN_MILLIS = 1000;
     public static final Integer SHUTTLE_COUNT_DOWN_INTERVAL_IN_MILLIS = 100;
     public static final Integer MILLIS_IN_ONE_SEC = 1000;
 }

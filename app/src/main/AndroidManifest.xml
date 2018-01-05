@@ -9,7 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".app.HomeActivity" android:screenOrientation="portrait">
+        <activity
+            android:name=".app.HomeActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -26,8 +28,18 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".app.HomeActivity" />
         </activity>
-        <activity android:name=".app.YoYoActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".app.YoYoActivity"
+            android:screenOrientation="portrait" />
+
+        <service
+            android:name=".app.YoYoService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.am.yo_yo.app.YoYoService" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

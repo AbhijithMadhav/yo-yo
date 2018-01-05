@@ -18,6 +18,8 @@ import com.am.yo_yo.test.YoYoTest;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.am.yo_yo.app.Constants.TEST_NAME;
+
 public class HomeActivity extends AppCompatActivity {
 
     private static final YoYoTest YO_YO_INTERMITTENT_RECOVERY_TEST_LEVEL_1 = new YoYoIntermittantRecoveryTestLevel1();
@@ -47,6 +49,8 @@ public class HomeActivity extends AppCompatActivity {
 
         Button yyirtL1StartButton = findViewById(R.id.yyirtL1StartButton);
         yyirtL1StartButton.setOnClickListener(view -> {
+            Intent yoyoService = new Intent(this, YoYoService.class).putExtra(TEST_NAME, YO_YO_INTERMITTENT_RECOVERY_TEST_LEVEL_1.testName());
+            startService(yoyoService);
             startActivity(
                     new Intent(HomeActivity.this, YoYoActivity.class)
                             .putExtra(Constants.TEST_NAME, YO_YO_INTERMITTENT_RECOVERY_TEST_LEVEL_1.testName())
@@ -55,6 +59,8 @@ public class HomeActivity extends AppCompatActivity {
 
         Button yyirtL2StartButton = findViewById(R.id.yyirtL2StartButton);
         yyirtL2StartButton.setOnClickListener(view -> {
+            Intent yoyoService = new Intent(this, YoYoService.class).putExtra(TEST_NAME, YO_YO_INTERMITTENT_RECOVERY_TEST_LEVEL_2.testName());
+            startService(yoyoService);
             startActivity(
                     new Intent(HomeActivity.this, YoYoActivity.class)
                             .putExtra(Constants.TEST_NAME, YO_YO_INTERMITTENT_RECOVERY_TEST_LEVEL_2.testName())
@@ -66,6 +72,8 @@ public class HomeActivity extends AppCompatActivity {
 
         Button yyietL1StartButton = findViewById(R.id.yyietL1StartButton);
         yyietL1StartButton.setOnClickListener(view -> {
+            Intent yoyoService = new Intent(this, YoYoService.class).putExtra(TEST_NAME, YO_YO_INTERMITTENT_ENDURANCE_TEST_LEVEL_1.testName());
+            startService(yoyoService);
             startActivity(
                     new Intent(HomeActivity.this, YoYoActivity.class)
                             .putExtra(Constants.TEST_NAME, YO_YO_INTERMITTENT_ENDURANCE_TEST_LEVEL_1.testName())
@@ -74,6 +82,8 @@ public class HomeActivity extends AppCompatActivity {
 
         Button yyietL2StartButton = findViewById(R.id.yyietL2StartButton);
         yyietL2StartButton.setOnClickListener(view -> {
+            Intent yoyoService = new Intent(this, YoYoService.class).putExtra(TEST_NAME, YO_YO_INTERMITTENT_ENDURANCE_TEST_LEVEL_2.testName());
+            startService(yoyoService);
             startActivity(
                     new Intent(HomeActivity.this, YoYoActivity.class)
                             .putExtra(Constants.TEST_NAME, YO_YO_INTERMITTENT_ENDURANCE_TEST_LEVEL_2.testName())
