@@ -81,16 +81,9 @@ public class YoYoService extends Service {
         yoYoUIModel.setCurrentStageIndex(0);
         yoYoUIModel.setShuttlesRemaining(yoYoTest.testStages().get(0).getNumShuttles());
 
-        // Display a notification about us starting.  We put an icon in the status bar.
-        // showNotification();
-
-        startRun();
+        restCountDown();
 
         return START_STICKY;
-    }
-
-    private void startRun() {
-        restCountDown();
     }
 
     private void restCountDown() {
@@ -103,7 +96,6 @@ public class YoYoService extends Service {
 
             private int index = (int) (yoYoTest.restIntervalInMills()/MILLIS_IN_ONE_SEC) - 1;
             public void onTick(long millisUntilFinished) {
-                //tickMediaPlayer.start();
                 restCountDownMediaPlayer[index--].start();
                 yoYoUIModel.setRemainingTimeInSecs(millisUntilFinished / MILLIS_IN_ONE_SEC);
             }
@@ -111,7 +103,6 @@ public class YoYoService extends Service {
             public void onFinish() {
 
                 restCountDownMediaPlayer[0].start();
-                //beepMediaPlayer.start();
                 if (yoYoUIModel.getShuttlesRemaining() > 0) {
                     shuttleCountDown();
                 }
@@ -180,7 +171,11 @@ public class YoYoService extends Service {
         // Tell the user we stopped.
         Toast.makeText(this, R.string.local_service_stopped, Toast.LENGTH_SHORT).show();
 
-        cancelTimers();
+        if (restCountDownTimer != null)
+            restCountDownTimer.cancel();
+        if (shuttleCountDownTimer != null)
+            shuttleCountDownTimer.cancel();
+
         tickMediaPlayer.release();
         tickMediaPlayer = null;
         halfBeepMediaPlayer.release();
@@ -192,13 +187,6 @@ public class YoYoService extends Service {
             restCountDownMediaPlayer[i].release();
             restCountDownMediaPlayer[i] = null;
         }
-    }
-
-    private void cancelTimers() {
-        if (restCountDownTimer != null)
-            restCountDownTimer.cancel();
-        if (shuttleCountDownTimer != null)
-            shuttleCountDownTimer.cancel();
     }
 
     public YoYoUIModel getUIModel() {

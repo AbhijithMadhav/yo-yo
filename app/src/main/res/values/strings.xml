@@ -19,5 +19,7 @@
     <string name="local_service_label">Hello</string>
     <string name="local_service_started">started</string>
     <string name="local_service_stopped">Test Stopped</string>
+    <string name="notification_channel_id">channelId_01</string>
+    <string name="channel_name">Default Channel</string>
 
 </resources>

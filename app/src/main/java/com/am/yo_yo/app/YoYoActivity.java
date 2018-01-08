@@ -1,13 +1,16 @@
 package com.am.yo_yo.app;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.WindowManager;
@@ -50,13 +53,11 @@ public class YoYoActivity extends AppCompatActivity {
     private static final String TAG = YoYoActivity.class.getSimpleName();
 
     private YoYoUIModel yoYoUIModel;
+
     private ServiceConnection serviceConnection;
 
-    private NotificationManager mNM;
-
-    // Unique Identification Number for the Notification.
-    // We use it on Notification start, and to cancel it.
-    private int NOTIFICATION = R.string.local_service_started;
+    private NotificationManager notificationManager;
+    private final static Integer NOTIFICATION_ID = R.string.local_service_started;
     private Notification notification;
 
 
@@ -65,16 +66,11 @@ public class YoYoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         Log.i(TAG, "OnCreate");
+
         setContentView(R.layout.activity_yoyo);
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-        TextView testNameView = findViewById(R.id.testName);
-        String testName = getIntent().getStringExtra(TEST_NAME);
-        if (testName == null)
-            throw new RuntimeException("testname is null");
-        testNameView.setText(testName);
-        yoYoTest = HomeActivity.TEST_MAP.get(testName);
 
         // count down
         remainingTimeLabel = findViewById(R.id.remainingTimeLabel);
@@ -111,23 +107,9 @@ public class YoYoActivity extends AppCompatActivity {
         currentStageStatsLayout.setVisibility(LinearLayout.GONE);
         upcomingStageStatsLayout.setVisibility(LinearLayout.GONE);
 
-        serviceConnection = new ServiceConnection() {
-            @Override
-            public void onServiceConnected(ComponentName name, IBinder service) {
-                Log.i("ServiceConnection", "onServiceConnected");
-                YoYoService.LocalBinder binder = (YoYoService.LocalBinder) service;
-                yoYoUIModel = binder.getService().getUIModel();
-                Log.i("ServiceConnection", "ui model : " + yoYoUIModel);
-                //isBound = true;
-            }
-
-            @Override
-            public void onServiceDisconnected(ComponentName name) {
-                Log.i("ServiceConnection", "onServiceDisconnected");
-                yoYoUIModel = null;
-                //isBound = false;
-            }
-        };
+        TextView testNameView = findViewById(R.id.testName);
+        String testName = getIntent().getStringExtra(TEST_NAME);
+        testNameView.setText(testName);
 
         // Stop
         Button stopButton = findViewById(R.id.stopButton);
@@ -142,15 +124,41 @@ public class YoYoActivity extends AppCompatActivity {
             YoYoActivity.this.finish();
         });
 
-        mNM = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+        yoYoTest = HomeActivity.TEST_MAP.get(testName);
+
+        serviceConnection = new ServiceConnection() {
+            @Override
+            public void onServiceConnected(ComponentName name, IBinder service) {
+                Log.i("ServiceConnection", "onServiceConnected");
+                YoYoService.LocalBinder binder = (YoYoService.LocalBinder) service;
+                yoYoUIModel = binder.getService().getUIModel();
+                //Log.i("ServiceConnection", "ui model : " + yoYoUIModel);
+                //isBound = true;
+            }
+
+            @Override
+            public void onServiceDisconnected(ComponentName name) {
+                Log.i("ServiceConnection", "onServiceDisconnected");
+                yoYoUIModel = null;
+                //isBound = false;
+            }
+        };
+
+
+        notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         PendingIntent contentIntent = PendingIntent.getActivity(
                 this,
                 0,
                 new Intent(this, YoYoActivity.class).putExtra(TEST_NAME, yoYoTest.testName()),
                 0);
 
-        // Set the info for the views that show in the notification panel.
-        notification = new Notification.Builder(this)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel notificationChannel = new NotificationChannel(getString(R.string.notification_channel_id), getString(R.string.channel_name), NotificationManager.IMPORTANCE_HIGH);
+            notificationChannel.enableLights(true);
+            notificationManager.createNotificationChannel(notificationChannel);
+        }
+
+        notification = new NotificationCompat.Builder(this, getString(R.string.notification_channel_id))
                 .setSmallIcon(R.drawable.ic_launcher_background)  // the status icon
                 .setTicker(yoYoTest.testName())  // the status text
                 .setWhen(System.currentTimeMillis())  // the time stamp
@@ -164,7 +172,7 @@ public class YoYoActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        mNM.cancel(NOTIFICATION);
+        notificationManager.cancel(NOTIFICATION_ID);
         Log.i(TAG, "onStart");
         bindService(
                 new Intent(this, YoYoService.class).putExtra(TEST_NAME, yoYoTest.testName()),
@@ -219,8 +227,10 @@ public class YoYoActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        showNotification();
         Log.i(TAG, "onStop");
+
+        // Send the notification.
+        notificationManager.notify(NOTIFICATION_ID, notification);
         unbindService(serviceConnection);
     }
 
@@ -230,20 +240,6 @@ public class YoYoActivity extends AppCompatActivity {
         Log.i(TAG, "onDestroy");
         String testName = getIntent().getStringExtra(TEST_NAME);
         stopService(new Intent(this, YoYoService.class).putExtra(TEST_NAME, testName));
-        mNM.cancel(NOTIFICATION);
-    }
-
-    /**
-     * Show a notification while this service is running.
-     */
-    private void showNotification() {
-        // In this sample, we'll use the same text for the ticker and the expanded notification
-        CharSequence text = getText(R.string.local_service_started);
-
-        // The PendingIntent to launch our activity if the user selects this notification
-        Log.i(TAG, yoYoTest.testName());
-
-        // Send the notification.
-        mNM.notify(NOTIFICATION, notification);
+        notificationManager.cancel(NOTIFICATION_ID);
     }
 }

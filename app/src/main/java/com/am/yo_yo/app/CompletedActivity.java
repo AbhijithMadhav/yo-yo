@@ -1,8 +1,10 @@
 package com.am.yo_yo.app;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
+import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.widget.TextView;
 
@@ -56,7 +58,14 @@ public class CompletedActivity extends AppCompatActivity {
         );
         distanceCoveredView.setText(String.valueOf(yoYoTest.distanceCoveredInM(currentStageIndex, shuttlesRemaining)));
 
-        testNormLinkView.setText(Html.fromHtml("<a href='" + yoYoTest.testNormUri().toString() + "'>View Test Norms</a>", Html.FROM_HTML_MODE_LEGACY));
+        String href = "<a href='" + yoYoTest.testNormUri().toString() + "'>View Test Norms</a>";
+        Spanned linkText;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+            linkText = Html.fromHtml(href, Html.FROM_HTML_MODE_LEGACY);
+        else
+            linkText = Html.fromHtml(href);
+
+        testNormLinkView.setText(linkText);
         testNormLinkView.setMovementMethod(LinkMovementMethod.getInstance());
 
 
