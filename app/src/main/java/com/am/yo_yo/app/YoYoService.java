@@ -1,11 +1,17 @@
 package com.am.yo_yo.app;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Binder;
+import android.os.Build;
 import android.os.CountDownTimer;
 import android.os.IBinder;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -14,6 +20,7 @@ import com.am.yo_yo.test.YoYoTest;
 
 import static com.am.yo_yo.app.Constants.MILLIS_IN_ONE_SEC;
 import static com.am.yo_yo.app.Constants.SHUTTLE_COUNT_DOWN_INTERVAL_IN_MILLIS;
+import static com.am.yo_yo.app.Constants.TEST_NAME;
 import static com.am.yo_yo.test.YoYoTest.SHUTTLE_LENGTH_IN_METERS;
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
@@ -80,6 +87,30 @@ public class YoYoService extends Service {
         yoYoUIModel = new YoYoUIModel();
         yoYoUIModel.setCurrentStageIndex(0);
         yoYoUIModel.setShuttlesRemaining(yoYoTest.testStages().get(0).getNumShuttles());
+
+        // start service in the foreground
+        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        PendingIntent contentIntent = PendingIntent.getActivity(
+                this,
+                0,
+                new Intent(this, YoYoActivity.class).putExtra(TEST_NAME, yoYoTest.testName()),
+                0);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel notificationChannel = new NotificationChannel(getString(R.string.notification_channel_id), getString(R.string.channel_name), NotificationManager.IMPORTANCE_DEFAULT);
+            notificationChannel.enableLights(true);
+            notificationManager.createNotificationChannel(notificationChannel);
+        }
+
+        Notification notification = new NotificationCompat.Builder(this, getString(R.string.notification_channel_id))
+                .setSmallIcon(R.drawable.ic_launcher_background)  // the status icon
+                .setTicker(yoYoTest.testName())  // the status text
+                .setWhen(System.currentTimeMillis())  // the time stamp
+                .setContentTitle(yoYoTest.testName())  // the label of the entry
+                .setContentIntent(contentIntent)  // The intent to send when the entry is clicked
+                .build();
+
+        startForeground(R.string.notification_id, notification);
 
         restCountDown();
 

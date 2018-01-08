@@ -1,16 +1,10 @@
 package com.am.yo_yo.app;
 
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.WindowManager;
@@ -55,11 +49,6 @@ public class YoYoActivity extends AppCompatActivity {
     private YoYoUIModel yoYoUIModel;
 
     private ServiceConnection serviceConnection;
-
-    private NotificationManager notificationManager;
-    private final static Integer NOTIFICATION_ID = R.string.local_service_started;
-    private Notification notification;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,36 +132,12 @@ public class YoYoActivity extends AppCompatActivity {
                 //isBound = false;
             }
         };
-
-
-        notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        PendingIntent contentIntent = PendingIntent.getActivity(
-                this,
-                0,
-                new Intent(this, YoYoActivity.class).putExtra(TEST_NAME, yoYoTest.testName()),
-                0);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel notificationChannel = new NotificationChannel(getString(R.string.notification_channel_id), getString(R.string.channel_name), NotificationManager.IMPORTANCE_HIGH);
-            notificationChannel.enableLights(true);
-            notificationManager.createNotificationChannel(notificationChannel);
-        }
-
-        notification = new NotificationCompat.Builder(this, getString(R.string.notification_channel_id))
-                .setSmallIcon(R.drawable.ic_launcher_background)  // the status icon
-                .setTicker(yoYoTest.testName())  // the status text
-                .setWhen(System.currentTimeMillis())  // the time stamp
-                .setContentTitle(yoYoTest.testName())  // the label of the entry
-                .setContentIntent(contentIntent)  // The intent to send when the entry is clicked
-                .build();
-
     }
 
     @Override
     protected void onStart() {
         super.onStart();
 
-        notificationManager.cancel(NOTIFICATION_ID);
         Log.i(TAG, "onStart");
         bindService(
                 new Intent(this, YoYoService.class).putExtra(TEST_NAME, yoYoTest.testName()),
@@ -228,9 +193,6 @@ public class YoYoActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         Log.i(TAG, "onStop");
-
-        // Send the notification.
-        notificationManager.notify(NOTIFICATION_ID, notification);
         unbindService(serviceConnection);
     }
 
@@ -240,6 +202,5 @@ public class YoYoActivity extends AppCompatActivity {
         Log.i(TAG, "onDestroy");
         String testName = getIntent().getStringExtra(TEST_NAME);
         stopService(new Intent(this, YoYoService.class).putExtra(TEST_NAME, testName));
-        notificationManager.cancel(NOTIFICATION_ID);
     }
 }

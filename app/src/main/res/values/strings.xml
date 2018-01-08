@@ -17,7 +17,7 @@
     <string name="yyetTest"><a href='http://www.topendsports.com/testing/tests/yo-yo-endurance.htm'>Yo-Yo Endurance Test</a></string>
     <string name="kph">Kph</string>
     <string name="local_service_label">Hello</string>
-    <string name="local_service_started">started</string>
+    <string name="notification_id">started</string>
     <string name="local_service_stopped">Test Stopped</string>
     <string name="notification_channel_id">channelId_01</string>
     <string name="channel_name">Default Channel</string>
