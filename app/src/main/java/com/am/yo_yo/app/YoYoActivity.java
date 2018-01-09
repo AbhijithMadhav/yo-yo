@@ -147,7 +147,7 @@ public class YoYoActivity extends AppCompatActivity {
                 BIND_AUTO_CREATE
         );
 
-        uiUpdateTimer = new Timer("uiUpdater");
+        uiUpdateTimer = new Timer("uiUpdater", true);
         uiUpdateTimer.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -197,6 +197,7 @@ public class YoYoActivity extends AppCompatActivity {
         super.onStop();
         Log.i(TAG, "onStop");
         uiUpdateTimer.cancel();
+        uiUpdateTimer.purge();
         unbindService(serviceConnection);
     }
 
