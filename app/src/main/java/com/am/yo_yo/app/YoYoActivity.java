@@ -50,6 +50,8 @@ public class YoYoActivity extends AppCompatActivity {
 
     private ServiceConnection serviceConnection;
 
+    private Timer uiUpdateTimer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -145,7 +147,8 @@ public class YoYoActivity extends AppCompatActivity {
                 BIND_AUTO_CREATE
         );
 
-        new Timer("uiUpdater", true).schedule(new TimerTask() {
+        uiUpdateTimer = new Timer("uiUpdater");
+        uiUpdateTimer.schedule(new TimerTask() {
             @Override
             public void run() {
                 runOnUiThread(() -> updateView());
@@ -193,6 +196,7 @@ public class YoYoActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         Log.i(TAG, "onStop");
+        uiUpdateTimer.cancel();
         unbindService(serviceConnection);
     }
 
