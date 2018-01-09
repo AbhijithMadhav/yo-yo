@@ -134,6 +134,13 @@ public class YoYoActivity extends AppCompatActivity {
                 //isBound = false;
             }
         };
+
+        bindService(
+                new Intent(this, YoYoService.class).putExtra(TEST_NAME, yoYoTest.testName()),
+                serviceConnection,
+                BIND_AUTO_CREATE
+        );
+
     }
 
     @Override
@@ -141,11 +148,6 @@ public class YoYoActivity extends AppCompatActivity {
         super.onStart();
 
         Log.i(TAG, "onStart");
-        bindService(
-                new Intent(this, YoYoService.class).putExtra(TEST_NAME, yoYoTest.testName()),
-                serviceConnection,
-                BIND_AUTO_CREATE
-        );
 
         uiUpdateTimer = new Timer("uiUpdater", true);
         uiUpdateTimer.schedule(new TimerTask() {
@@ -198,13 +200,14 @@ public class YoYoActivity extends AppCompatActivity {
         Log.i(TAG, "onStop");
         uiUpdateTimer.cancel();
         uiUpdateTimer.purge();
-        unbindService(serviceConnection);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         Log.i(TAG, "onDestroy");
+        unbindService(serviceConnection);
+
         String testName = getIntent().getStringExtra(TEST_NAME);
         stopService(new Intent(this, YoYoService.class).putExtra(TEST_NAME, testName));
     }
