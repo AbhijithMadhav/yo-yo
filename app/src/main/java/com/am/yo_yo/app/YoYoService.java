@@ -18,7 +18,10 @@ import android.widget.Toast;
 import com.am.yo_yo.R;
 import com.am.yo_yo.test.YoYoTest;
 
+import java.text.DecimalFormat;
+
 import static com.am.yo_yo.app.Constants.MILLIS_IN_ONE_SEC;
+import static com.am.yo_yo.app.Constants.REST_COUNT_DOWN_INTERVAL_IN_MILLIS;
 import static com.am.yo_yo.app.Constants.SHUTTLE_COUNT_DOWN_INTERVAL_IN_MILLIS;
 import static com.am.yo_yo.app.Constants.TEST_NAME;
 import static com.am.yo_yo.test.YoYoTest.SHUTTLE_LENGTH_IN_METERS;
@@ -123,13 +126,13 @@ public class YoYoService extends Service {
 
 
         // storing timer in reference variable so as to get a handle to cancel the same in some other life cycle stage of the activity
-        restCountDownTimer = new CountDownTimer(yoYoTest.restIntervalInMills(), Constants.REST_COUNT_DOWN_INTERVAL_IN_MILLIS) {
+        restCountDownTimer = new CountDownTimer(yoYoTest.restIntervalInMills(), REST_COUNT_DOWN_INTERVAL_IN_MILLIS) {
 
             private int index = (int) (yoYoTest.restIntervalInMills()/MILLIS_IN_ONE_SEC);
 
             public void onTick(long millisUntilFinished) {
                 restCountDownMediaPlayer[index].start();
-                yoYoUIModel.setRemainingTimeInSecs(index);
+                yoYoUIModel.setRemainingTimeInSecs(String.valueOf(index));
                 index--;
             }
 
@@ -164,10 +167,12 @@ public class YoYoService extends Service {
         shuttleCountDownTimer = new CountDownTimer(timeToCompleteShuttleInMillis, SHUTTLE_COUNT_DOWN_INTERVAL_IN_MILLIS) {
 
             private Boolean halfBeep = TRUE;
+            private final DecimalFormat twoDecimalFormat = new DecimalFormat("#.#");
 
             public void onTick(long millisUntilFinished) {
-                yoYoUIModel.setRemainingTimeInSecs(millisUntilFinished / (double)MILLIS_IN_ONE_SEC);
+                yoYoUIModel.setRemainingTimeInSecs(twoDecimalFormat.format(millisUntilFinished / (double)MILLIS_IN_ONE_SEC));
                 if (timeToCompleteShuttleInMillis/millisUntilFinished == 2 && halfBeep) {
+                    Log.i(TAG, String.valueOf(millisUntilFinished));
                     halfBeepMediaPlayer.start();
                     halfBeep = FALSE;
                 }

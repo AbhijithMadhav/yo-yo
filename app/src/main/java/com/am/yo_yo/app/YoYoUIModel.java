@@ -7,7 +7,7 @@ package com.am.yo_yo.app;
 public class YoYoUIModel {
     private Integer currentStageIndex;
     private Integer shuttlesRemaining;
-    private double remainingTimeInSecs;
+    private String remainingTimeInSecs;
     private YoYoPhase yoYoPhase;
 
 
@@ -19,7 +19,7 @@ public class YoYoUIModel {
         return shuttlesRemaining;
     }
 
-    public double getRemainingTimeInSecs() {
+    public String getRemainingTimeInSecs() {
         return remainingTimeInSecs;
     }
 
@@ -32,7 +32,7 @@ public class YoYoUIModel {
         this.shuttlesRemaining = shuttlesRemaining;
     }
 
-    public void setRemainingTimeInSecs(double remainingTimeInSecs) {
+    public void setRemainingTimeInSecs(String remainingTimeInSecs) {
         this.remainingTimeInSecs = remainingTimeInSecs;
     }
 
