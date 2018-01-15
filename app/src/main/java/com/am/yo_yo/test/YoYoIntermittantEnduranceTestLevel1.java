@@ -12,7 +12,7 @@ public class YoYoIntermittantEnduranceTestLevel1 extends YoYoTest {
 
     private static final String TEST_NAME = "Yo-Yo Intermittent Endurance Test - Level 1";
     private static final Uri TEST_NORM_URI = Uri.parse("http://www.topendsports.com/testing/norms/beep.htm");
-    private static final Long REST_TIME_IN_MILLIS = 6000L;
+    private static final Long REST_TIME_IN_MILLIS = 5000L;
     private static final ArrayList<Stage> TEST_STAGES = new ArrayList<>();
 
     static {

@@ -125,13 +125,16 @@ public class YoYoService extends Service {
         // storing timer in reference variable so as to get a handle to cancel the same in some other life cycle stage of the activity
         restCountDownTimer = new CountDownTimer(yoYoTest.restIntervalInMills(), Constants.REST_COUNT_DOWN_INTERVAL_IN_MILLIS) {
 
-            private int index = (int) (yoYoTest.restIntervalInMills()/MILLIS_IN_ONE_SEC) - 1;
+            private int index = (int) (yoYoTest.restIntervalInMills()/MILLIS_IN_ONE_SEC);
+
             public void onTick(long millisUntilFinished) {
-                restCountDownMediaPlayer[index--].start();
-                yoYoUIModel.setRemainingTimeInSecs(millisUntilFinished / MILLIS_IN_ONE_SEC);
+                restCountDownMediaPlayer[index].start();
+                yoYoUIModel.setRemainingTimeInSecs(index);
+                index--;
             }
 
             public void onFinish() {
+                restCountDownMediaPlayer[0].start();
                 if (yoYoUIModel.getShuttlesRemaining() > 0) {
                     shuttleCountDown();
                 }
