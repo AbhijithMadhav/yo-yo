@@ -132,8 +132,6 @@ public class YoYoService extends Service {
             }
 
             public void onFinish() {
-
-                restCountDownMediaPlayer[0].start();
                 if (yoYoUIModel.getShuttlesRemaining() > 0) {
                     shuttleCountDown();
                 }
