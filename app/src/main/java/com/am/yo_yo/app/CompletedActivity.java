@@ -23,16 +23,18 @@ public class CompletedActivity extends AppCompatActivity {
     private YoYoTest yoYoTest;
     private Integer shuttlesRemaining;
     private int currentStageIndex;
-    private String testName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_completed);
 
-        testName = getIntent().getStringExtra(Constants.TEST_NAME);
+        yoYoTest = (YoYoTest) getIntent().getSerializableExtra(Constants.TEST_NAME);
+        currentStageIndex = getIntent().getIntExtra(Constants.STAGE_INDEX, 0);
+        shuttlesRemaining = getIntent().getIntExtra(Constants.SHUTTLES_REMAINING, 0);
+
         testNameView = findViewById(R.id.testName);
-        testNameView.setText(testName);
+        testNameView.setText(yoYoTest.testName());
 
         completedShuttlesView = findViewById(R.id.completedShuttles);
         completedLevelView = findViewById(R.id.completedLevel);
@@ -41,10 +43,7 @@ public class CompletedActivity extends AppCompatActivity {
 
         testNormLinkView = findViewById(R.id.testNormLink);
 
-        yoYoTest = HomeActivity.TEST_MAP.get(getIntent().getStringExtra(Constants.TEST_NAME));
-        currentStageIndex = getIntent().getIntExtra(Constants.STAGE_INDEX, 0);
-        shuttlesRemaining = getIntent().getIntExtra(Constants.SHUTTLES_REMAINING, 0);
-    }
+        }
 
     @Override
     protected void onStart() {

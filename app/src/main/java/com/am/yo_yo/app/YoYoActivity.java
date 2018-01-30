@@ -99,23 +99,21 @@ public class YoYoActivity extends AppCompatActivity {
         upcomingStageStatsLayout.setVisibility(LinearLayout.GONE);
 
         TextView testNameView = findViewById(R.id.testName);
-        String testName = getIntent().getStringExtra(TEST_NAME);
-        testNameView.setText(testName);
+        yoYoTest = (YoYoTest) getIntent().getSerializableExtra(TEST_NAME);
+        testNameView.setText(yoYoTest.testName());
 
         // Stop
         Button stopButton = findViewById(R.id.stopButton);
         stopButton.setOnClickListener(view -> {
-            stopService(new Intent(this, YoYoService.class).putExtra(TEST_NAME, testName));
+            stopService(new Intent(this, YoYoService.class).putExtra(TEST_NAME, yoYoTest.testName()));
             startActivity(
                     new Intent(this, CompletedActivity.class)
-                            .putExtra(TEST_NAME, testName)
+                            .putExtra(TEST_NAME, yoYoTest)
                             .putExtra(Constants.STAGE_INDEX, yoYoUIModel.getCurrentStageIndex())
                             .putExtra(Constants.SHUTTLES_REMAINING, yoYoUIModel.getShuttlesRemaining())
             );
             YoYoActivity.this.finish();
         });
-
-        yoYoTest = HomeActivity.TEST_MAP.get(testName);
 
         serviceConnection = new ServiceConnection() {
             @Override
@@ -205,7 +203,6 @@ public class YoYoActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         Log.i(TAG, "onDestroy");
-        String testName = getIntent().getStringExtra(TEST_NAME);
-        stopService(new Intent(this, YoYoService.class).putExtra(TEST_NAME, testName));
+        stopService(new Intent(this, YoYoService.class).putExtra(TEST_NAME, getIntent().getSerializableExtra(TEST_NAME)));
     }
 }

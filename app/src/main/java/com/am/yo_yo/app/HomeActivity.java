@@ -9,32 +9,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.am.yo_yo.R;
-import com.am.yo_yo.test.YoYoIntermittantEnduranceTestLevel1;
-import com.am.yo_yo.test.YoYoIntermittantEnduranceTestLevel2;
-import com.am.yo_yo.test.YoYoIntermittantRecoveryTestLevel1;
-import com.am.yo_yo.test.YoYoIntermittantRecoveryTestLevel2;
 import com.am.yo_yo.test.YoYoTest;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import static com.am.yo_yo.app.Constants.TEST_NAME;
+import static com.am.yo_yo.app.Constants.YY_IR_E1_STAGES;
+import static com.am.yo_yo.app.Constants.YY_IR_E2_STAGES;
+import static com.am.yo_yo.app.Constants.YY_IR_L1_STAGES;
+import static com.am.yo_yo.app.Constants.YY_IR_L2_STAGES;
 
 public class HomeActivity extends AppCompatActivity {
-
-    private static final YoYoTest YO_YO_INTERMITTENT_RECOVERY_TEST_LEVEL_1 = new YoYoIntermittantRecoveryTestLevel1();
-    private static final YoYoTest YO_YO_INTERMITTENT_RECOVERY_TEST_LEVEL_2 = new YoYoIntermittantRecoveryTestLevel2();
-    private static final YoYoTest YO_YO_INTERMITTENT_ENDURANCE_TEST_LEVEL_1 = new YoYoIntermittantEnduranceTestLevel1();
-    private static final YoYoTest YO_YO_INTERMITTENT_ENDURANCE_TEST_LEVEL_2 = new YoYoIntermittantEnduranceTestLevel2();
-
-    public static final Map<String, YoYoTest> TEST_MAP = new HashMap<>();
-    static {
-        TEST_MAP.put(YO_YO_INTERMITTENT_RECOVERY_TEST_LEVEL_1.testName(), YO_YO_INTERMITTENT_RECOVERY_TEST_LEVEL_1);
-        TEST_MAP.put(YO_YO_INTERMITTENT_RECOVERY_TEST_LEVEL_2.testName(), YO_YO_INTERMITTENT_RECOVERY_TEST_LEVEL_2);
-        TEST_MAP.put(YO_YO_INTERMITTENT_ENDURANCE_TEST_LEVEL_1.testName(), YO_YO_INTERMITTENT_ENDURANCE_TEST_LEVEL_1);
-        TEST_MAP.put(YO_YO_INTERMITTENT_ENDURANCE_TEST_LEVEL_2.testName(), YO_YO_INTERMITTENT_ENDURANCE_TEST_LEVEL_2);
-
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,46 +31,55 @@ public class HomeActivity extends AppCompatActivity {
         yyirtTestLevelsView.setMovementMethod(LinkMovementMethod.getInstance());
 
         Button yyirtL1StartButton = findViewById(R.id.yyirtL1StartButton);
+        YoYoTest yyirtL1Test = new YoYoTest(
+                "Yo-Yo Intermittent Recovery Test - Level 1",
+                "http://www.topendsports.com/testing/norms/yo-yo.htm",
+                10000L,
+                YY_IR_L1_STAGES
+        );
         yyirtL1StartButton.setOnClickListener(view -> {
-            Intent yoyoService = new Intent(this, YoYoService.class).putExtra(TEST_NAME, YO_YO_INTERMITTENT_RECOVERY_TEST_LEVEL_1.testName());
-            startService(yoyoService);
-            startActivity(
-                    new Intent(HomeActivity.this, YoYoActivity.class)
-                            .putExtra(Constants.TEST_NAME, YO_YO_INTERMITTENT_RECOVERY_TEST_LEVEL_1.testName())
-            );
+            startService(new Intent(this, YoYoService.class).putExtra(TEST_NAME, yyirtL1Test));
+            startActivity(new Intent(HomeActivity.this, YoYoActivity.class).putExtra(TEST_NAME, yyirtL1Test));
         });
 
+
         Button yyirtL2StartButton = findViewById(R.id.yyirtL2StartButton);
+        YoYoTest yyirtL2Test = new YoYoTest(
+                "Yo-Yo Intermittent Recovery Test - Level 2",
+                "http://www.topendsports.com/testing/norms/yo-yo.htm",
+                10000L,
+                YY_IR_L2_STAGES
+        );
         yyirtL2StartButton.setOnClickListener(view -> {
-            Intent yoyoService = new Intent(this, YoYoService.class).putExtra(TEST_NAME, YO_YO_INTERMITTENT_RECOVERY_TEST_LEVEL_2.testName());
-            startService(yoyoService);
-            startActivity(
-                    new Intent(HomeActivity.this, YoYoActivity.class)
-                            .putExtra(Constants.TEST_NAME, YO_YO_INTERMITTENT_RECOVERY_TEST_LEVEL_2.testName())
-            );
+            startService(new Intent(this, YoYoService.class).putExtra(TEST_NAME, yyirtL2Test));
+            startActivity(new Intent(HomeActivity.this, YoYoActivity.class).putExtra(TEST_NAME, yyirtL2Test));
         });
 
         TextView yyietTestLevelsView = findViewById(R.id.yyietTestLevels);
         yyietTestLevelsView.setMovementMethod(LinkMovementMethod.getInstance());
 
         Button yyietL1StartButton = findViewById(R.id.yyietL1StartButton);
+        YoYoTest yyietL1Test = new YoYoTest(
+                "Yo-Yo Intermittent Endurance Test - Level 1",
+                "http://www.topendsports.com/testing/norms/beep.htm",
+                5000L,
+                YY_IR_E1_STAGES
+        );
         yyietL1StartButton.setOnClickListener(view -> {
-            Intent yoyoService = new Intent(this, YoYoService.class).putExtra(TEST_NAME, YO_YO_INTERMITTENT_ENDURANCE_TEST_LEVEL_1.testName());
-            startService(yoyoService);
-            startActivity(
-                    new Intent(HomeActivity.this, YoYoActivity.class)
-                            .putExtra(Constants.TEST_NAME, YO_YO_INTERMITTENT_ENDURANCE_TEST_LEVEL_1.testName())
-            );
+            startService(new Intent(this, YoYoService.class).putExtra(TEST_NAME, yyietL1Test));
+            startActivity(new Intent(HomeActivity.this, YoYoActivity.class).putExtra(TEST_NAME, yyietL1Test));
         });
 
         Button yyietL2StartButton = findViewById(R.id.yyietL2StartButton);
+        YoYoTest yyietL2Test = new YoYoTest(
+                "Yo-Yo Intermittent Endurance Test - Level 2",
+                "http://www.topendsports.com/testing/norms/beep.htm",
+                5000L,
+                YY_IR_E2_STAGES
+        );
         yyietL2StartButton.setOnClickListener(view -> {
-            Intent yoyoService = new Intent(this, YoYoService.class).putExtra(TEST_NAME, YO_YO_INTERMITTENT_ENDURANCE_TEST_LEVEL_2.testName());
-            startService(yoyoService);
-            startActivity(
-                    new Intent(HomeActivity.this, YoYoActivity.class)
-                            .putExtra(Constants.TEST_NAME, YO_YO_INTERMITTENT_ENDURANCE_TEST_LEVEL_2.testName())
-            );
+            startService(new Intent(this, YoYoService.class).putExtra(TEST_NAME, yyietL2Test));
+            startActivity(new Intent(HomeActivity.this, YoYoActivity.class).putExtra(TEST_NAME, yyietL2Test));
         });
 
         TextView yyetView = findViewById(R.id.yyetTest);

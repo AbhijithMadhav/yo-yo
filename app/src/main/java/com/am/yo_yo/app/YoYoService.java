@@ -85,8 +85,8 @@ public class YoYoService extends Service {
 
         Log.i(TAG, "onStartCommand");
 
-        yoYoTest = HomeActivity.TEST_MAP.get(intent.getStringExtra(Constants.TEST_NAME));
-
+        //yoYoTest = (YoYoTest) intent.getExtras().getSerializable(Constants.TEST_NAME);
+        yoYoTest = (YoYoTest) intent.getSerializableExtra(TEST_NAME);
         yoYoUIModel = new YoYoUIModel();
         yoYoUIModel.setCurrentStageIndex(0);
         yoYoUIModel.setShuttlesRemaining(yoYoTest.testStages().get(0).getNumShuttles());

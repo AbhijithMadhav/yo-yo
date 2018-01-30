@@ -1,11 +1,13 @@
 package com.am.yo_yo.test;
 
+import java.io.Serializable;
+
 /**
  * Represents a shuttle in the YO-YO test
  * Created by amadhav on 08/12/17.
  */
 
-public class Stage {
+public class Stage implements Serializable {
 
     private Float speedLevel; // Represents a particular speed at which this shuttle should be run
     private Integer numShuttles; // Represents the no of shuttles at this speed level
