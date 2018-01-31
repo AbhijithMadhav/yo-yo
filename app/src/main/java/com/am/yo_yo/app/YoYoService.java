@@ -11,6 +11,7 @@ import android.os.Binder;
 import android.os.Build;
 import android.os.CountDownTimer;
 import android.os.IBinder;
+import android.speech.tts.TextToSpeech;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
@@ -19,6 +20,7 @@ import com.am.yo_yo.R;
 import com.am.yo_yo.test.YoYoTest;
 
 import java.text.DecimalFormat;
+import java.util.Locale;
 
 import static com.am.yo_yo.app.Constants.MILLIS_IN_ONE_SEC;
 import static com.am.yo_yo.app.Constants.REST_COUNT_DOWN_INTERVAL_IN_MILLIS;
@@ -28,7 +30,7 @@ import static com.am.yo_yo.test.YoYoTest.SHUTTLE_LENGTH_IN_METERS;
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
 
-public class YoYoService extends Service {
+public class YoYoService extends Service implements TextToSpeech.OnInitListener {
 
     private static final String TAG = YoYoService.class.getSimpleName();
 
@@ -41,7 +43,23 @@ public class YoYoService extends Service {
     private MediaPlayer tickMediaPlayer;
     private MediaPlayer beepMediaPlayer;
     private MediaPlayer halfBeepMediaPlayer;
-    private MediaPlayer[] restCountDownMediaPlayer;
+
+    private TextToSpeech tts;
+
+    @Override
+    public void onInit(int status) {
+        if (status == TextToSpeech.SUCCESS) {
+
+            int result = tts.setLanguage(Locale.US);
+
+            if (result == TextToSpeech.LANG_MISSING_DATA
+                    || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                Log.e("TTS", "This Language is not supported");
+            }
+        } else {
+            Log.e("TTS", "Initilization Failed!");
+        }
+    }
 
 
     class LocalBinder extends Binder {
@@ -60,24 +78,13 @@ public class YoYoService extends Service {
     public void onCreate() {
         Log.i(TAG, "onCreate");
 
+        tts = new TextToSpeech(this, this);
+
         // For timer beeps
         // https://www.soundjay.com/beep-sounds-1.html
         tickMediaPlayer = MediaPlayer.create(this, R.raw.beep07);
         beepMediaPlayer = MediaPlayer.create(this, R.raw.beep01a);
         halfBeepMediaPlayer = MediaPlayer.create(this, R.raw.beep02);
-
-        restCountDownMediaPlayer = new MediaPlayer[11];
-        restCountDownMediaPlayer[0] = MediaPlayer.create(this, R.raw.go);
-        restCountDownMediaPlayer[1] = MediaPlayer.create(this, R.raw.one);
-        restCountDownMediaPlayer[2] = MediaPlayer.create(this, R.raw.two);
-        restCountDownMediaPlayer[3] = MediaPlayer.create(this, R.raw.three);
-        restCountDownMediaPlayer[4] = MediaPlayer.create(this, R.raw.four);
-        restCountDownMediaPlayer[5] = MediaPlayer.create(this, R.raw.five);
-        restCountDownMediaPlayer[6] = MediaPlayer.create(this, R.raw.six);
-        restCountDownMediaPlayer[7] = MediaPlayer.create(this, R.raw.seven);
-        restCountDownMediaPlayer[8] = MediaPlayer.create(this, R.raw.eight);
-        restCountDownMediaPlayer[9] = MediaPlayer.create(this, R.raw.nine);
-        restCountDownMediaPlayer[10] = MediaPlayer.create(this, R.raw.ten);
     }
 
     @Override
@@ -131,13 +138,13 @@ public class YoYoService extends Service {
             private int index = (int) (yoYoTest.restIntervalInMills()/MILLIS_IN_ONE_SEC);
 
             public void onTick(long millisUntilFinished) {
-                restCountDownMediaPlayer[index].start();
+                tts.speak(String.valueOf(index), TextToSpeech.QUEUE_FLUSH, null);
                 yoYoUIModel.setRemainingTimeInSecs(String.valueOf(index));
                 index--;
             }
 
             public void onFinish() {
-                restCountDownMediaPlayer[0].start();
+                tts.speak("go", TextToSpeech.QUEUE_FLUSH, null);
                 if (yoYoUIModel.getShuttlesRemaining() > 0) {
                     shuttleCountDown();
                 }
@@ -205,6 +212,11 @@ public class YoYoService extends Service {
     public void onDestroy() {
         Log.i(TAG, "onDestroy");
 
+        if (tts != null) {
+            tts.stop();
+            tts.shutdown();
+        }
+
         // Tell the user we stopped.
         Toast.makeText(this, R.string.local_service_stopped, Toast.LENGTH_SHORT).show();
 
@@ -219,16 +231,9 @@ public class YoYoService extends Service {
         halfBeepMediaPlayer = null;
         beepMediaPlayer.release();
         beepMediaPlayer = null;
-
-        for (int i = 0 ; i < restCountDownMediaPlayer.length; i++) {
-            restCountDownMediaPlayer[i].release();
-            restCountDownMediaPlayer[i] = null;
-        }
     }
 
     public YoYoUIModel getUIModel() {
         return yoYoUIModel;
     }
-
-
 }
