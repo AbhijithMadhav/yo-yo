@@ -3,10 +3,14 @@ package com.am.yo_yo.app;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -22,6 +26,7 @@ import java.util.TimerTask;
 
 import static com.am.yo_yo.app.Constants.TEST_NAME;
 import static java.lang.Boolean.FALSE;
+import static java.lang.Boolean.TRUE;
 
 public class YoYoActivity extends AppCompatActivity {
 
@@ -94,9 +99,19 @@ public class YoYoActivity extends AppCompatActivity {
             }
 
         });
-        detailsSwitch.setChecked(FALSE);
-        currentStageStatsLayout.setVisibility(LinearLayout.GONE);
-        upcomingStageStatsLayout.setVisibility(LinearLayout.GONE);
+
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean showDetails = sharedPref.getBoolean(getString(R.string.pref_details_key), false);
+        if (showDetails) {
+            detailsSwitch.setChecked(TRUE);
+            currentStageStatsLayout.setVisibility(LinearLayout.VISIBLE);
+            upcomingStageStatsLayout.setVisibility(LinearLayout.VISIBLE);
+
+        } else {
+            detailsSwitch.setChecked(FALSE);
+            currentStageStatsLayout.setVisibility(LinearLayout.GONE);
+            upcomingStageStatsLayout.setVisibility(LinearLayout.GONE);
+        }
 
         TextView testNameView = findViewById(R.id.testName);
         yoYoTest = (YoYoTest) getIntent().getSerializableExtra(TEST_NAME);
@@ -204,5 +219,24 @@ public class YoYoActivity extends AppCompatActivity {
         super.onDestroy();
         Log.i(TAG, "onDestroy");
         stopService(new Intent(this, YoYoService.class).putExtra(TEST_NAME, getIntent().getSerializableExtra(TEST_NAME)));
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_settings) {
+            // launch settings activity
+            startActivity(new Intent(YoYoActivity.this, SettingsActivity.class));
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
