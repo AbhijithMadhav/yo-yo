@@ -54,10 +54,10 @@ public class YoYoService extends Service implements TextToSpeech.OnInitListener 
 
             if (result == TextToSpeech.LANG_MISSING_DATA
                     || result == TextToSpeech.LANG_NOT_SUPPORTED) {
-                Log.e("TTS", "This Language is not supported");
+                Log.e(TAG, "This Language is not supported");
             }
         } else {
-            Log.e("TTS", "Initilization Failed!");
+            Log.e(TAG, "Initialization Failed!");
         }
     }
 
@@ -98,7 +98,7 @@ public class YoYoService extends Service implements TextToSpeech.OnInitListener 
         yoYoUIModel.setCurrentStageIndex(0);
         yoYoUIModel.setShuttlesRemaining(yoYoTest.testStages().get(0).getNumShuttles());
 
-        // start service in the foreground
+        // startTest service in the foreground
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         PendingIntent contentIntent = PendingIntent.getActivity(
                 this,
@@ -113,7 +113,7 @@ public class YoYoService extends Service implements TextToSpeech.OnInitListener 
         }
 
         Notification notification = new NotificationCompat.Builder(this, getString(R.string.notification_channel_id))
-                .setSmallIcon(R.drawable.ic_launcher_background)  // the status icon
+                .setSmallIcon(R.mipmap.ic_launche)  // the status icon
                 .setTicker(yoYoTest.testName())  // the status text
                 .setWhen(System.currentTimeMillis())  // the time stamp
                 .setContentTitle(yoYoTest.testName())  // the label of the entry
@@ -122,10 +122,34 @@ public class YoYoService extends Service implements TextToSpeech.OnInitListener 
 
         startForeground(R.string.notification_id, notification);
 
-        restCountDown();
+        startTest();
 
         return START_STICKY;
     }
+
+    private void startTest() {
+
+        yoYoUIModel.setYoYoPhase(YoYoUIModel.YoYoPhase.REST);
+
+        Integer startCountDownInSecs = 4;
+
+        // storing timer in reference variable so as to get a handle to cancel the same in some other life cycle stage of the activity
+        restCountDownTimer = new CountDownTimer(startCountDownInSecs * MILLIS_IN_ONE_SEC, REST_COUNT_DOWN_INTERVAL_IN_MILLIS) {
+
+            private int index = (int) (startCountDownInSecs);
+
+            public void onTick(long millisUntilFinished) {
+                tts.speak(String.valueOf(index), TextToSpeech.QUEUE_FLUSH, null);
+                yoYoUIModel.setRemainingTimeInSecs(String.valueOf(index));
+                index--;
+            }
+
+            public void onFinish() {
+               shuttleCountDown();
+            }
+        }.start();
+    }
+
 
     private void restCountDown() {
 
@@ -144,7 +168,6 @@ public class YoYoService extends Service implements TextToSpeech.OnInitListener 
             }
 
             public void onFinish() {
-                tts.speak("go", TextToSpeech.QUEUE_FLUSH, null);
                 if (yoYoUIModel.getShuttlesRemaining() > 0) {
                     shuttleCountDown();
                 }
@@ -169,6 +192,8 @@ public class YoYoService extends Service implements TextToSpeech.OnInitListener 
         yoYoUIModel.setYoYoPhase(YoYoUIModel.YoYoPhase.SHUTTLE);
 
         long timeToCompleteShuttleInMillis = (long)((SHUTTLE_LENGTH_IN_METERS * MILLIS_IN_ONE_SEC/ yoYoTest.testStages().get(yoYoUIModel.getCurrentStageIndex()).getSpeedInMps()));
+
+        tts.speak("go", TextToSpeech.QUEUE_FLUSH, null);
 
         // storing timer in reference variable so as to get a handle to cancel the same in some other life cycle stage of the activity
         shuttleCountDownTimer = new CountDownTimer(timeToCompleteShuttleInMillis, SHUTTLE_COUNT_DOWN_INTERVAL_IN_MILLIS) {
