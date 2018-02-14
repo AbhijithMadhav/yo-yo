@@ -57,6 +57,8 @@ public class CompletedActivity extends AppCompatActivity {
         );
         distanceCoveredView.setText(String.valueOf(yoYoTest.distanceCoveredInM(currentStageIndex, shuttlesRemaining)));
 
+
+        totalTimeView.setText(String.valueOf(yoYoTest.timeTakenInSecs(currentStageIndex, shuttlesRemaining, Math.round(yoYoTest.restIntervalInMills() / Constants.MILLIS_IN_ONE_SEC))));
         String href = "<a href='" + yoYoTest.testNormUri().toString() + "'>View Test Norms</a>";
         Spanned linkText;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)

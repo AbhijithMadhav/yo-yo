@@ -57,4 +57,18 @@ public class YoYoTest implements Serializable {
         shuttlesCompleted += (testStages().get(currentStageIndex).getNumShuttles() - shuttlesRemaining);
         return shuttlesCompleted;
     }
+
+    public Integer timeTakenInSecs(Integer currentStageIndex, Integer shuttlesRemaining, Integer restIntervalInSecs) {
+        Integer timeTaken = 0;
+        for (int i = 0; i < currentStageIndex; i++) {
+            Stage stage = testStages().get(i);
+            timeTaken += stage.getNumShuttles() * Math.round(SHUTTLE_LENGTH_IN_METERS/stage.getSpeedInMps()) 
+                    + ((stage.getNumShuttles()) * restIntervalInSecs);
+        }
+        Stage currentStage = testStages().get(currentStageIndex);
+        timeTaken += (currentStage.getNumShuttles() - shuttlesRemaining) * Math.round(SHUTTLE_LENGTH_IN_METERS/ currentStage.getSpeedInMps());
+        if (currentStage.getNumShuttles() > shuttlesRemaining)
+                timeTaken += ((currentStage.getNumShuttles() - shuttlesRemaining - 1) * restIntervalInSecs);
+        return timeTaken;
+    }
 }
