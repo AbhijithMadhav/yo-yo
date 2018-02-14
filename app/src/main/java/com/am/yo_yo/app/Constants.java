@@ -109,4 +109,25 @@ public class Constants {
         YY_IR_E2_STAGES.add(new Stage(21.5f, 6, 18.5f));
     }
 
+
+    public static final ArrayList<Stage> YY_E2_STAGES = new ArrayList<>();
+
+    static {
+        YY_E2_STAGES.add(new Stage(8f, 10, 11.5f));
+        YY_E2_STAGES.add(new Stage(9f, 11, 12f));
+        YY_E2_STAGES.add(new Stage(10f, 11, 13f));
+        YY_E2_STAGES.add(new Stage(11f, 11, 13.5f));
+        YY_E2_STAGES.add(new Stage(12f, 12, 14f));
+        YY_E2_STAGES.add(new Stage(13f, 12, 14.5f));
+        YY_E2_STAGES.add(new Stage(14f, 13, 15f));
+        YY_E2_STAGES.add(new Stage(15f, 13, 15.5f));
+        YY_E2_STAGES.add(new Stage(16f, 13, 16f));
+        YY_E2_STAGES.add(new Stage(17f, 14, 16.5f));
+        YY_E2_STAGES.add(new Stage(18f, 14, 17f));
+        YY_E2_STAGES.add(new Stage(19f, 15, 17.5f));
+        YY_E2_STAGES.add(new Stage(20f, 15, 18f));
+        YY_E2_STAGES.add(new Stage(21f, 16, 18.5f));
+    }
+
+
 }

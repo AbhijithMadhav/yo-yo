@@ -14,6 +14,7 @@ import com.am.yo_yo.R;
 import com.am.yo_yo.test.YoYoTest;
 
 import static com.am.yo_yo.app.Constants.TEST_NAME;
+import static com.am.yo_yo.app.Constants.YY_E2_STAGES;
 import static com.am.yo_yo.app.Constants.YY_IR_E1_STAGES;
 import static com.am.yo_yo.app.Constants.YY_IR_E2_STAGES;
 import static com.am.yo_yo.app.Constants.YY_IR_L1_STAGES;
@@ -94,9 +95,15 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         Button yyetL2StartButton = findViewById(R.id.yyetL2StartButton);
+        YoYoTest yyetL2Test = new YoYoTest(
+                "Yo-Yo Endurance Test - Level 2",
+                "http://www.topendsports.com/testing/tests/yo-yo-endurance.htm",
+                0L,
+                YY_E2_STAGES
+        );
         yyetL2StartButton.setOnClickListener(view -> {
-            Toast toast = Toast.makeText(getApplicationContext(), "Not Yet Implemented", Toast.LENGTH_SHORT);
-            toast.show();
+            startService(new Intent(this, YoYoService.class).putExtra(TEST_NAME, yyetL2Test));
+            startActivity(new Intent(HomeActivity.this, YoYoActivity.class).putExtra(TEST_NAME, yyetL2Test));
         });
     }
 
