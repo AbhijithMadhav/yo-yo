@@ -113,7 +113,7 @@ public class YoYoService extends Service implements TextToSpeech.OnInitListener 
         }
 
         Notification notification = new NotificationCompat.Builder(this, getString(R.string.notification_channel_id))
-                .setSmallIcon(R.mipmap.ic_launcher)  // the status icon
+                .setSmallIcon(R.drawable.ic_notification)  // the status icon
                 .setTicker(yoYoTest.testName())  // the status text
                 .setWhen(System.currentTimeMillis())  // the time stamp
                 .setContentTitle(yoYoTest.testName())  // the label of the entry
