@@ -113,7 +113,7 @@ public class YoYoService extends Service implements TextToSpeech.OnInitListener 
         }
 
         Notification notification = new NotificationCompat.Builder(this, getString(R.string.notification_channel_id))
-                .setSmallIcon(R.mipmap.ic_launche)  // the status icon
+                .setSmallIcon(R.mipmap.ic_launcher)  // the status icon
                 .setTicker(yoYoTest.testName())  // the status text
                 .setWhen(System.currentTimeMillis())  // the time stamp
                 .setContentTitle(yoYoTest.testName())  // the label of the entry
@@ -131,12 +131,12 @@ public class YoYoService extends Service implements TextToSpeech.OnInitListener 
 
         yoYoUIModel.setYoYoPhase(YoYoUIModel.YoYoPhase.REST);
 
-        Integer startCountDownInSecs = 4;
+        int startCountDownInSecs = 4;
 
         // storing timer in reference variable so as to get a handle to cancel the same in some other life cycle stage of the activity
-        restCountDownTimer = new CountDownTimer(startCountDownInSecs * MILLIS_IN_ONE_SEC, REST_COUNT_DOWN_INTERVAL_IN_MILLIS) {
+        restCountDownTimer = new CountDownTimer(startCountDownInSecs * MILLIS_IN_ONE_SEC + 300, REST_COUNT_DOWN_INTERVAL_IN_MILLIS) {
 
-            private int index = (int) (startCountDownInSecs);
+            private int index = startCountDownInSecs;
 
             public void onTick(long millisUntilFinished) {
                 tts.speak(String.valueOf(index), TextToSpeech.QUEUE_FLUSH, null);
@@ -145,7 +145,7 @@ public class YoYoService extends Service implements TextToSpeech.OnInitListener 
             }
 
             public void onFinish() {
-               shuttleCountDown();
+                shuttleCountDown();
             }
         }.start();
     }
@@ -157,7 +157,7 @@ public class YoYoService extends Service implements TextToSpeech.OnInitListener 
 
 
         // storing timer in reference variable so as to get a handle to cancel the same in some other life cycle stage of the activity
-        restCountDownTimer = new CountDownTimer(yoYoTest.restIntervalInMills(), REST_COUNT_DOWN_INTERVAL_IN_MILLIS) {
+        restCountDownTimer = new CountDownTimer(yoYoTest.restIntervalInMills() + 300, REST_COUNT_DOWN_INTERVAL_IN_MILLIS) {
 
             private int index = (int) (yoYoTest.restIntervalInMills()/MILLIS_IN_ONE_SEC);
 
@@ -204,7 +204,6 @@ public class YoYoService extends Service implements TextToSpeech.OnInitListener 
             public void onTick(long millisUntilFinished) {
                 yoYoUIModel.setRemainingTimeInSecs(twoDecimalFormat.format(millisUntilFinished / (double)MILLIS_IN_ONE_SEC));
                 if (timeToCompleteShuttleInMillis/millisUntilFinished == 2 && halfBeep) {
-                    Log.i(TAG, String.valueOf(millisUntilFinished));
                     halfBeepMediaPlayer.start();
                     halfBeep = FALSE;
                 }
