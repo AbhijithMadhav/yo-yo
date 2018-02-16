@@ -110,6 +110,31 @@ public class Constants {
     }
 
 
+    public static final ArrayList<Stage> YY_E1_STAGES = new ArrayList<>();
+
+    static {
+        YY_E1_STAGES.add(new Stage(1f, 7, 8f));
+        YY_E1_STAGES.add(new Stage(3f, 8, 9f));
+        YY_E1_STAGES.add(new Stage(5f, 8, 10f));
+        YY_E1_STAGES.add(new Stage(6f, 8, 10.5f));
+        YY_E1_STAGES.add(new Stage(6.5f, 9, 10.75f));
+        YY_E1_STAGES.add(new Stage(7f, 9, 11f));
+        YY_E1_STAGES.add(new Stage(7.5f, 10, 11.25f));
+        YY_E1_STAGES.add(new Stage(8f, 10, 11.5f));
+        YY_E1_STAGES.add(new Stage(8.5f, 11, 11.75f));
+        YY_E1_STAGES.add(new Stage(9f, 11, 12f));
+        YY_E1_STAGES.add(new Stage(9.5f, 11, 12.25f));
+        YY_E1_STAGES.add(new Stage(10f, 12, 12.5f));
+        YY_E1_STAGES.add(new Stage(10.5f, 12, 12.75f));
+        YY_E1_STAGES.add(new Stage(11f, 13, 13f));
+        YY_E1_STAGES.add(new Stage(11.5f, 13, 13.25f));
+        YY_E1_STAGES.add(new Stage(12f, 13, 13.5f));
+        YY_E1_STAGES.add(new Stage(12.5f, 14, 13.75f));
+        YY_E1_STAGES.add(new Stage(13f, 14, 14f));
+        YY_E1_STAGES.add(new Stage(13.5f, 15, 14.25f));
+        YY_E1_STAGES.add(new Stage(14f, 15, 14.5f));
+    }
+
     public static final ArrayList<Stage> YY_E2_STAGES = new ArrayList<>();
 
     static {
