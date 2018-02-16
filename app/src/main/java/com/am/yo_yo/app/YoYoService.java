@@ -134,7 +134,7 @@ public class YoYoService extends Service implements TextToSpeech.OnInitListener 
         int startCountDownInSecs = 4;
 
         // storing timer in reference variable so as to get a handle to cancel the same in some other life cycle stage of the activity
-        restCountDownTimer = new CountDownTimer(startCountDownInSecs * MILLIS_IN_ONE_SEC + 300, REST_COUNT_DOWN_INTERVAL_IN_MILLIS) {
+        restCountDownTimer = new CountDownTimer(startCountDownInSecs * MILLIS_IN_ONE_SEC + 200, REST_COUNT_DOWN_INTERVAL_IN_MILLIS) {
 
             private int index = startCountDownInSecs;
 
@@ -157,7 +157,7 @@ public class YoYoService extends Service implements TextToSpeech.OnInitListener 
 
 
         // storing timer in reference variable so as to get a handle to cancel the same in some other life cycle stage of the activity
-        restCountDownTimer = new CountDownTimer(yoYoTest.restIntervalInMills() + 300, REST_COUNT_DOWN_INTERVAL_IN_MILLIS) {
+        restCountDownTimer = new CountDownTimer(yoYoTest.restIntervalInMills() + 200, REST_COUNT_DOWN_INTERVAL_IN_MILLIS) {
 
             private int index = (int) (yoYoTest.restIntervalInMills()/MILLIS_IN_ONE_SEC);
 
