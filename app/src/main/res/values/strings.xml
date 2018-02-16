@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Yo-Yo</string>
+    <string name="app_name">Yo-Yo Tests</string>
 
     <string name="rest">REST</string>
     <string name="run">RUN</string>
