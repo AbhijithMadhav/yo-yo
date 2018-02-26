@@ -9,8 +9,6 @@ import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -219,24 +217,5 @@ public class YoYoActivity extends AppCompatActivity {
         super.onDestroy();
         Log.i(TAG, "onDestroy");
         stopService(new Intent(this, YoYoService.class).putExtra(TEST_NAME, getIntent().getSerializableExtra(TEST_NAME)));
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.action_settings) {
-            // launch settings activity
-            startActivity(new Intent(YoYoActivity.this, SettingsActivity.class));
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 }
