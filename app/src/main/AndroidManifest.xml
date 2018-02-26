@@ -43,8 +43,12 @@
 
         <activity
             android:name=".app.SettingsActivity"
-            android:launchMode="singleInstance"
-            android:label="@string/title_activity_settings"/>
+            android:parentActivityName=".app.HomeActivity"
+            android:label="@string/title_activity_settings">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".app.HomeActivity" />
+        </activity>
     </application>
 
 </manifest>
