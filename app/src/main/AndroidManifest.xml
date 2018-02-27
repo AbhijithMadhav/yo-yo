@@ -35,7 +35,7 @@
         <service
             android:name=".app.YoYoService"
             android:enabled="true"
-            android:exported="true">
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.am.yo_yo.app.YoYoService" />
             </intent-filter>
