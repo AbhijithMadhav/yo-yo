@@ -162,7 +162,8 @@ public class YoYoService extends Service implements TextToSpeech.OnInitListener 
             private int index = (int) (yoYoTest.restIntervalInMills()/MILLIS_IN_ONE_SEC);
 
             public void onTick(long millisUntilFinished) {
-                tts.speak(String.valueOf(index), TextToSpeech.QUEUE_FLUSH, null);
+                if (index > 0)
+                    tts.speak(String.valueOf(index), TextToSpeech.QUEUE_FLUSH, null);
                 yoYoUIModel.setRemainingTimeInSecs(String.valueOf(index));
                 index--;
             }
