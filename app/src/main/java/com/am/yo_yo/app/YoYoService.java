@@ -139,8 +139,11 @@ public class YoYoService extends Service implements TextToSpeech.OnInitListener 
             private int index = startCountDownInSecs;
 
             public void onTick(long millisUntilFinished) {
+              if(index>0){
+                // enables not to send last number command to tts as its done in on finish
                 tts.speak(String.valueOf(index), TextToSpeech.QUEUE_FLUSH, null);
                 yoYoUIModel.setRemainingTimeInSecs(String.valueOf(index));
+              }
                 index--;
             }
 
