@@ -26,6 +26,9 @@ import static com.am.yo_yo.app.Constants.MILLIS_IN_ONE_SEC;
 import static com.am.yo_yo.app.Constants.REST_COUNT_DOWN_INTERVAL_IN_MILLIS;
 import static com.am.yo_yo.app.Constants.SHUTTLE_COUNT_DOWN_INTERVAL_IN_MILLIS;
 import static com.am.yo_yo.app.Constants.TEST_NAME;
+import static com.am.yo_yo.app.YoYoUIModel.YoYoPhase.COMPLETED;
+import static com.am.yo_yo.app.YoYoUIModel.YoYoPhase.REST;
+import static com.am.yo_yo.app.YoYoUIModel.YoYoPhase.SHUTTLE;
 import static com.am.yo_yo.test.YoYoTest.SHUTTLE_LENGTH_IN_METERS;
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
@@ -129,7 +132,7 @@ public class YoYoService extends Service implements TextToSpeech.OnInitListener 
 
     private void startTest() {
 
-        yoYoUIModel.setYoYoPhase(YoYoUIModel.YoYoPhase.REST);
+        yoYoUIModel.setYoYoPhase(REST);
 
         int startCountDownInSecs = 4;
 
@@ -156,7 +159,7 @@ public class YoYoService extends Service implements TextToSpeech.OnInitListener 
 
     private void restCountDown() {
 
-        yoYoUIModel.setYoYoPhase(YoYoUIModel.YoYoPhase.REST);
+        yoYoUIModel.setYoYoPhase(REST);
 
 
         // storing timer in reference variable so as to get a handle to cancel the same in some other life cycle stage of the activity
@@ -193,7 +196,7 @@ public class YoYoService extends Service implements TextToSpeech.OnInitListener 
 
     private void shuttleCountDown() {
 
-        yoYoUIModel.setYoYoPhase(YoYoUIModel.YoYoPhase.SHUTTLE);
+        yoYoUIModel.setYoYoPhase(SHUTTLE);
 
         long timeToCompleteShuttleInMillis = (long)((SHUTTLE_LENGTH_IN_METERS * MILLIS_IN_ONE_SEC/ yoYoTest.testStages().get(yoYoUIModel.getCurrentStageIndex()).getSpeedInMps()));
 
@@ -229,6 +232,7 @@ public class YoYoService extends Service implements TextToSpeech.OnInitListener 
                         restCountDown();
                     } else {
                         yoYoUIModel.setShuttlesRemaining(0);
+                        yoYoUIModel.setYoYoPhase(COMPLETED);
                         stopSelf();
                     }
                 }

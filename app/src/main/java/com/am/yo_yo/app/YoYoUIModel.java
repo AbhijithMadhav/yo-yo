@@ -46,7 +46,7 @@ public class YoYoUIModel {
     }
 
     public enum YoYoPhase {
-        REST, SHUTTLE;
+        REST, SHUTTLE, COMPLETED
     }
 }
 

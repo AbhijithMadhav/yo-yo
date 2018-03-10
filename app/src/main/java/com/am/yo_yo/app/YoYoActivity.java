@@ -23,6 +23,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import static com.am.yo_yo.app.Constants.TEST_NAME;
+import static com.am.yo_yo.app.YoYoUIModel.YoYoPhase.COMPLETED;
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
 
@@ -118,14 +119,7 @@ public class YoYoActivity extends AppCompatActivity {
         // Stop
         Button stopButton = findViewById(R.id.stopButton);
         stopButton.setOnClickListener(view -> {
-            stopService(new Intent(this, YoYoService.class).putExtra(TEST_NAME, yoYoTest.testName()));
-            startActivity(
-                    new Intent(this, CompletedActivity.class)
-                            .putExtra(TEST_NAME, yoYoTest)
-                            .putExtra(Constants.STAGE_INDEX, yoYoUIModel.getCurrentStageIndex())
-                            .putExtra(Constants.SHUTTLES_REMAINING, yoYoUIModel.getShuttlesRemaining())
-            );
-            YoYoActivity.this.finish();
+           endTest();
         });
 
         serviceConnection = new ServiceConnection() {
@@ -162,7 +156,16 @@ public class YoYoActivity extends AppCompatActivity {
         uiUpdateTimer.schedule(new TimerTask() {
             @Override
             public void run() {
-                runOnUiThread(() -> updateView());
+                runOnUiThread(() -> {
+                    if (yoYoUIModel == null)
+                        return;
+
+                    if (yoYoUIModel.getYoYoPhase().equals(COMPLETED)) {
+                        endTest();
+                    } else {
+                        updateView();
+                    }
+                });
 
             }
         }, 0, 100);
@@ -203,12 +206,23 @@ public class YoYoActivity extends AppCompatActivity {
         }
     }
 
+    private void endTest() {
+        uiUpdateTimer.cancel();
+        uiUpdateTimer.purge();
+        stopService(new Intent(this, YoYoService.class).putExtra(TEST_NAME, yoYoTest.testName()));
+        finish();
+        startActivity(
+                new Intent(this, CompletedActivity.class)
+                        .putExtra(TEST_NAME, yoYoTest)
+                        .putExtra(Constants.STAGE_INDEX, yoYoUIModel.getCurrentStageIndex())
+                        .putExtra(Constants.SHUTTLES_REMAINING, yoYoUIModel.getShuttlesRemaining())
+        );
+    }
+
     @Override
     protected void onStop() {
         super.onStop();
         Log.i(TAG, "onStop");
-        uiUpdateTimer.cancel();
-        uiUpdateTimer.purge();
         unbindService(serviceConnection);
     }
 
